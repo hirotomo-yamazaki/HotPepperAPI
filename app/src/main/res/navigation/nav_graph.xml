@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/topFragment">
+
+    <fragment
+        android:id="@+id/topFragment"
+        android:name="com.example.hotpepperapi.fragment.TopFragment"
+        android:label="TopFragment" >
+        <action
+            android:id="@+id/action_topFragment_to_storeListFragment"
+            app:destination="@id/storeListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/storeListFragment"
+        android:name="com.example.hotpepperapi.fragment.StoreListFragment"
+        android:label="fragment_store_list"
+        tools:layout="@layout/fragment_store_list" >
+    </fragment>
+</navigation>

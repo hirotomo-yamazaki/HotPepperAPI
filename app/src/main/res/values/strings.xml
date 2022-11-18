@@ -6,5 +6,36 @@
     <string name="btn_search">検索</string>
     <string name="_500m">500m</string>
     <string name="_300m">300m</string>
-    <string name="tv_location">周辺の飲食店を検索...</string>
+    <string name="tv_location">周辺の飲食店を検索…</string>
+    <string name="iv_store">Image</string>
+    <string name="tv_genre">ジャンル：</string>
+    <string name="tv_tell">電話番号：</string>
+    <string name="tv_address">住所：</string>
+    <string name="et_search_keyword">\t駅名を入力</string>
+    <string name="_300mStoreList">300m以内のお店一覧</string>
+    <string name="genre_hint">ジャンルを選択</string>
+    <string name="tv_search_result">検索結果</string>
+
+    <string name="please_wait">Please Wait&#8230;</string>
+
+    <!--    プルダウンメニュー-->
+    <string-array name="spinner_list">
+        <item>居酒屋</item>
+        <item>ダイニングバー・バル</item>
+        <item>創作料理</item>
+        <item>和食</item>
+        <item>洋食</item>
+        <item>イタリアン・フレンチ</item>
+        <item>中華</item>
+        <item>焼肉・ホルモン</item>
+        <item>韓国料理</item>
+        <item>アジア・エスニック料理</item>
+        <item>各国料理</item>
+        <item>カラオケ・パーティー</item>
+        <item>バー・カクテル</item>
+        <item>ラーメン</item>
+        <item>お好み焼き・もんじゃ</item>
+        <item>カフェ・スイーツ</item>
+        <item>その他グルメ</item>
+    </string-array>
 </resources>
