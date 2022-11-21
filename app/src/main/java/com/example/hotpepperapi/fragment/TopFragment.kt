@@ -18,6 +18,7 @@ import com.example.hotpepperapi.viewModel.ViewModel
 
 class TopFragment : Fragment() {
 
+//    private val viewModel: ViewModel by viewModels()
     private lateinit var viewModel: ViewModel
     private lateinit var binding: FragmentTopBinding
 
@@ -48,15 +49,13 @@ class TopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSearch.setOnClickListener {
-            checkParam()
-        }
+        binding.btnSearch.setOnClickListener { checkParam() }
 
-        binding.spGenre.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.spGenre.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val parent = p0 as Spinner
 
-                val genreCode = when(parent.selectedItem.toString()){
+                val genreCode = when (parent.selectedItem.toString()) {
                     "居酒屋" -> "G001"
                     "ダイニングバー・バル" -> "G002"
                     "創作料理" -> "G003"
@@ -78,6 +77,7 @@ class TopFragment : Fragment() {
                 }
 
                 viewModel.setGenreCode(genreCode)
+                Log.i("genreCode", viewModel.genreCode.value.toString())
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -101,9 +101,13 @@ class TopFragment : Fragment() {
 
         //入力された店名と駅名をviewModelに保存
         viewModel.setKeyword(keyword)
+        Log.i("keyword", viewModel.etKeyword.value.toString())
+        Log.i("genreCode", viewModel.genreCode.value.toString())
 
         //viewModelに店名と駅名が保存されていたら画面遷移
-        if (viewModel.etKeyword.value!!.isNotEmpty() && viewModel.genreCode.value!!.isNotEmpty()) {
+        if (!viewModel.etKeyword.value.isNullOrEmpty() && !viewModel.genreCode.value.isNullOrEmpty()) {
+            viewModel.getStoreList()
+            Log.i("navCon", "画面遷移")
             findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
         }
         Log.i("TopFragment", "checkParam")

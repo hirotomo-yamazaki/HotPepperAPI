@@ -17,6 +17,9 @@
     <string name="tv_search_result">検索結果</string>
 
     <string name="please_wait">Please Wait&#8230;</string>
+    <string name="image_view">イメージ画像</string>
+    <string name="tv_juusho">住所</string>
+    <string name="tv_access">アクセス</string>
 
     <!--    プルダウンメニュー-->
     <string-array name="spinner_list">

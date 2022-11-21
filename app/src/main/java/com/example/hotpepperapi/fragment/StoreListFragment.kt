@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentStoreListBinding
 import com.example.hotpepperapi.viewModel.ViewModel
@@ -16,7 +17,9 @@ import com.example.hotpepperapi.viewModel.ViewModel
 class StoreListFragment : Fragment() {
 
     private lateinit var binding: FragmentStoreListBinding
-    private lateinit var viewModel: ViewModel
+
+        private lateinit var viewModel: ViewModel
+//    private val viewModel: ViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,9 +35,6 @@ class StoreListFragment : Fragment() {
         binding.dataViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-
-        viewModel.getStoreList()
-
         Log.i("StoreListFragment", "onCreateView")
         return binding.root
     }
@@ -42,12 +42,17 @@ class StoreListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.storeList.observe(viewLifecycleOwner) { list ->
+        viewModel.storeList.observe(viewLifecycleOwner) {
             binding.lv300.adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
-                list
+                it
             )
+        }
+
+        binding.lv300.setOnItemClickListener { _, _, position, _ ->
+            viewModel.setPosition(position)
+            findNavController().navigate(R.id.action_storeListFragment_to_storeDetailFragment)
         }
 
         Log.i("StoreListFragment", "onViewCreated")

@@ -4,6 +4,7 @@ data class Shop(
     val access: String,
     val address: String,
     val genre: Genre,
+    val id: String,
     val lat: Double,
     val lng: Double,
     val logo_image: String,
