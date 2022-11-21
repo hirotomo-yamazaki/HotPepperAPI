@@ -1,23 +1,16 @@
 <resources>
     <string name="app_name">Hot Pepper API</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tv_title">Hot Pepper API</string>
-    <string name="et_search">\t店名を入力</string>
     <string name="btn_search">検索</string>
-    <string name="_500m">500m</string>
-    <string name="_300m">300m</string>
+    <string name="distance_500m">500m</string>
+    <string name="distance_300m">300m</string>
     <string name="tv_location">周辺の飲食店を検索…</string>
     <string name="iv_store">Image</string>
-    <string name="tv_genre">ジャンル：</string>
-    <string name="tv_tell">電話番号：</string>
-    <string name="tv_address">住所：</string>
     <string name="et_search_keyword">\t駅名を入力</string>
     <string name="_300mStoreList">300m以内のお店一覧</string>
     <string name="genre_hint">ジャンルを選択</string>
     <string name="tv_search_result">検索結果</string>
 
-    <string name="please_wait">Please Wait&#8230;</string>
-    <string name="image_view">イメージ画像</string>
     <string name="tv_juusho">住所</string>
     <string name="tv_access">アクセス</string>
 
