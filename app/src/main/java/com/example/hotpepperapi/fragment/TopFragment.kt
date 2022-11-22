@@ -10,7 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentTopBinding
@@ -18,8 +18,7 @@ import com.example.hotpepperapi.viewModel.ViewModel
 
 class TopFragment : Fragment() {
 
-//    private val viewModel: ViewModel by viewModels()
-    private lateinit var viewModel: ViewModel
+    private val viewModel: ViewModel by activityViewModels()
     private lateinit var binding: FragmentTopBinding
 
     override fun onCreateView(
@@ -29,9 +28,6 @@ class TopFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_top, container, false
         )
-        viewModel = ViewModelProvider(requireActivity())[ViewModel::class.java]
-        binding.dataViewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
 
         ArrayAdapter.createFromResource(
             requireContext(),
