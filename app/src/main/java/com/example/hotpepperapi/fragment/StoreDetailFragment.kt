@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.example.hotpepperapi.databinding.FragmentStoreDetailBinding
 import com.example.hotpepperapi.viewModel.ViewModel
 
 class StoreDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentStoreDetailBinding
-    private lateinit var viewModel: ViewModel
+    private val viewModel: ViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,9 +25,6 @@ class StoreDetailFragment : Fragment() {
             container,
             false
         )
-        viewModel = ViewModelProvider(requireActivity())[ViewModel::class.java]
-        binding.dataViewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
