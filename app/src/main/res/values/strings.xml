@@ -2,8 +2,6 @@
     <string name="app_name">Hot Pepper API</string>
     <string name="tv_title">Hot Pepper API</string>
     <string name="btn_search">検索</string>
-    <string name="distance_500m">500m</string>
-    <string name="distance_300m">300m</string>
     <string name="tv_location">周辺の飲食店を検索…</string>
     <string name="iv_store">Image</string>
     <string name="et_search_keyword">\t駅名を入力</string>

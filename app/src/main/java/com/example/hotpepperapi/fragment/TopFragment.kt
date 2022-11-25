@@ -83,13 +83,15 @@ class TopFragment : Fragment() {
         }
 
         binding.btn300.setOnClickListener {
+            checkLocation()
             findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
         }
 
-        binding.btn500.setOnClickListener {
-            findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
-        }
         Log.i("TopFragment", "onViewCreated")
+    }
+
+    private fun checkLocation() {
+        viewModel.getByLocation()
     }
 
     private fun checkParam() {
