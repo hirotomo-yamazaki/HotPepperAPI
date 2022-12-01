@@ -50,6 +50,14 @@ class ViewModel : ViewModel() {
     val lngList: LiveData<MutableList<Double>>
         get() = _lngList
 
+    private val _imageList = MutableLiveData<MutableList<String>>()
+    val imageList: LiveData<MutableList<String>>
+        get() = _imageList
+
+    private val _urlList = MutableLiveData<MutableList<String>>()
+    val urlList: LiveData<MutableList<String>>
+        get() = _urlList
+
     private val _position = MutableLiveData<Int>()
     val position: LiveData<Int>
         get() = _position
@@ -74,6 +82,18 @@ class ViewModel : ViewModel() {
     val storeName: LiveData<String>
         get() = _storeName
 
+    private val _coupon = MutableLiveData<String>()
+    val coupon: LiveData<String>
+        get() = _coupon
+
+    private val _freeDrink = MutableLiveData<String>()
+    val freeDrink: LiveData<String>
+        get() = _freeDrink
+
+    private val _freeFood = MutableLiveData<String>()
+    val freeFood: LiveData<String>
+        get() = _freeFood
+
     init {
         _progressBarFlag.value = false
         _genreCode.value = ""
@@ -90,6 +110,10 @@ class ViewModel : ViewModel() {
         _storeName.value = ""
         _latList.value = mutableListOf()
         _lngList.value = mutableListOf()
+        _imageList.value = mutableListOf()
+        _coupon.value = "0"
+        _freeDrink.value = "0"
+        _freeFood.value = "0"
     }
 
     fun setKeyword(keyword: String) {
@@ -116,6 +140,30 @@ class ViewModel : ViewModel() {
     fun setStoreLatLng(latitude: Double, longitude: Double) {
         _storeLat.value = latitude
         _storeLng.value = longitude
+    }
+
+    fun setCoupon() {
+        _coupon.value = "1"
+    }
+
+    fun cancelCoupon(){
+        _coupon.value = "0"
+    }
+
+    fun setFreeDrink() {
+        _freeDrink.value = "1"
+    }
+
+    fun cancelFreeDrink(){
+        _freeDrink.value = "0"
+    }
+
+    fun setFreeFood() {
+        _freeFood.value = "1"
+    }
+
+    fun cancelFreeFood(){
+        _freeFood.value = "0"
     }
 
     /** 位置情報から周辺飲食店を検索 */
@@ -174,12 +222,17 @@ class ViewModel : ViewModel() {
 
         _progressBarFlag.value = true
         withContext(Dispatchers.IO) {
-            val listCall = service.getStoreList(
-                Constants.API_KEY,
-                genreCode.value.toString(),
-                etKeyword.value.toString(),
-                Constants.FORMAT
-            )
+            val listCall =
+                service.getStoreList(
+                    Constants.API_KEY,
+                    genreCode.value.toString(),
+                    etKeyword.value.toString(),
+                    coupon.value.toString(),
+                    freeDrink.value.toString(),
+                    freeFood.value.toString(),
+                    Constants.FORMAT
+                )
+
             listCall.enqueue(object : Callback<StoreDetail> {
                 override fun onFailure(call: Call<StoreDetail>, t: Throwable) {
                     Log.e("Error", t.message.toString())
@@ -209,6 +262,8 @@ class ViewModel : ViewModel() {
         val accessList = mutableListOf<String>()
         val latList = mutableListOf<Double>()
         val lngList = mutableListOf<Double>()
+        val imageList = mutableListOf<String>()
+        val urlList = mutableListOf<String>()
 
         for (i in list.results.shop.indices) {
             storeNameList += list.results.shop[i].name
@@ -218,6 +273,8 @@ class ViewModel : ViewModel() {
             accessList += list.results.shop[i].access
             latList += list.results.shop[i].lat
             lngList += list.results.shop[i].lng
+            imageList += list.results.shop[i].photo.mobile.l
+            urlList += list.results.shop[i].urls.pc
         }
 
         _storeList.value = storeNameList
@@ -226,6 +283,8 @@ class ViewModel : ViewModel() {
         _accessList.value = accessList
         _latList.value = latList
         _lngList.value = lngList
+        _imageList.value = imageList
+        _urlList.value = urlList
         Log.i("ViewModel", storeList.value.toString())
     }
 }

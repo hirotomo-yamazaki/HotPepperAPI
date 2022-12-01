@@ -1,13 +1,18 @@
 package com.example.hotpepperapi.fragment
 
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentStoreDetailBinding
 import com.example.hotpepperapi.viewModel.ViewModel
@@ -33,6 +38,14 @@ class StoreDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.imageList.observe(viewLifecycleOwner) { list ->
+            viewModel.position.observe(viewLifecycleOwner) { position ->
+                Glide.with(requireContext())
+                    .load(list[position])
+                    .into(binding.ivStoreImage)
+            }
+        }
 
         viewModel.storeList.observe(viewLifecycleOwner) { list ->
             viewModel.position.observe(viewLifecycleOwner) { position ->
@@ -64,6 +77,15 @@ class StoreDetailFragment : Fragment() {
         viewModel.accessList.observe(viewLifecycleOwner) { list ->
             viewModel.position.observe(viewLifecycleOwner) { position ->
                 binding.tvStoreAccess.text = list[position]
+            }
+        }
+
+        viewModel.urlList.observe(viewLifecycleOwner) { list ->
+            viewModel.position.observe(viewLifecycleOwner) { position ->
+                val html = "店舗サイトは<a href=\"${list[position]}\">こちら</a>から"
+                binding.tvUrl.text =
+                    HtmlCompat.fromHtml(html, FROM_HTML_MODE_COMPACT)
+                binding.tvUrl.movementMethod = LinkMovementMethod.getInstance()
             }
         }
 

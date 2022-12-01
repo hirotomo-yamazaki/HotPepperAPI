@@ -1,7 +1,6 @@
 package com.example.hotpepperapi.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +29,6 @@ class StoreListFragment : Fragment() {
             false
         )
 
-        Log.i("StoreListFragment", "onCreateView")
         return binding.root
     }
 
@@ -46,19 +44,24 @@ class StoreListFragment : Fragment() {
         }
 
         viewModel.storeList.observe(viewLifecycleOwner) {
-            binding.lv300.adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                it
-            )
+            if (!it.isNullOrEmpty()){
+                binding.lv300.adapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    it
+                )
+                binding.lv300.visibility = View.VISIBLE
+                binding.tvErrorMsg.visibility = View.GONE
+            }else{
+                binding.lv300.visibility = View.GONE
+                binding.tvErrorMsg.visibility = View.VISIBLE
+            }
         }
 
         binding.lv300.setOnItemClickListener { _, _, position, _ ->
             viewModel.setPosition(position)
             findNavController().navigate(R.id.action_storeListFragment_to_storeDetailFragment)
         }
-
-        Log.i("StoreListFragment", "onViewCreated")
     }
 
     private fun hideProgressBar() {

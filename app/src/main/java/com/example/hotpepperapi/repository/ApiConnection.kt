@@ -11,6 +11,9 @@ interface ApiConnection {
         @Query("key") key: String,
         @Query("genre") genreCode: String,
         @Query("keyword") keyword: String,
+        @Query("ktai_coupon") coupon: String,
+        @Query("free_drink") freeDrink: String,
+        @Query("free_food") freeFood: String,
         @Query("format") format: String
     ): Call<StoreDetail>
 

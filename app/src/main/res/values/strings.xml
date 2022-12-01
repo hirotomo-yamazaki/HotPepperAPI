@@ -12,24 +12,52 @@
     <string name="tv_juusho">住所</string>
     <string name="tv_access">アクセス</string>
 
+    <!--    ダイアログ-->
+    <string name="dialog">駅名を入力して下さい。</string>
+
+    <string name="tv_error_msg">検索条件に当てはまるお店はありませんでした。\n検索条件を変更して下さい。</string>
+    <string name="iv_store_image">イメージ画像</string>
+    <string name="cb_coupon">携帯クーポン</string>
+    <string name="cb_free_drink">飲み放題</string>
+    <string name="cb_free_food">食べ放題</string>
+    <string name="tv_check_box">絞り込み条件追加</string>
+    <string name="tv_store_url">店舗サイト</string>
+
     <!--    プルダウンメニュー-->
     <string-array name="spinner_list">
-        <item>居酒屋</item>
-        <item>ダイニングバー・バル</item>
-        <item>創作料理</item>
-        <item>和食</item>
-        <item>洋食</item>
-        <item>イタリアン・フレンチ</item>
-        <item>中華</item>
-        <item>焼肉・ホルモン</item>
-        <item>韓国料理</item>
-        <item>アジア・エスニック料理</item>
-        <item>各国料理</item>
-        <item>カラオケ・パーティー</item>
-        <item>バー・カクテル</item>
-        <item>ラーメン</item>
-        <item>お好み焼き・もんじゃ</item>
-        <item>カフェ・スイーツ</item>
-        <item>その他グルメ</item>
+        <item>@string/izakaya</item>
+        <item>@string/dinningBar</item>
+        <item>@string/sousakuRyori</item>
+        <item>@string/washoku</item>
+        <item>@string/youshoku</item>
+        <item>@string/italian</item>
+        <item>@string/chuka</item>
+        <item>@string/yakiniku</item>
+        <item>@string/kankoku</item>
+        <item>@string/asia</item>
+        <item>@string/kakkokuryori</item>
+        <item>@string/karaoke</item>
+        <item>@string/bar</item>
+        <item>@string/ramen</item>
+        <item>@string/okonomiyaki</item>
+        <item>@string/cafe</item>
+        <item>@string/other</item>
     </string-array>
+    <string name="izakaya">居酒屋</string>
+    <string name="dinningBar">ダイニングバー・バル</string>
+    <string name="sousakuRyori">創作料理</string>
+    <string name="washoku">和食</string>
+    <string name="youshoku">洋食</string>
+    <string name="italian">イタリアン・フレンチ</string>
+    <string name="chuka">中華</string>
+    <string name="yakiniku">焼肉・ホルモン</string>
+    <string name="kankoku">韓国料理</string>
+    <string name="asia">アジア・エスニック料理</string>
+    <string name="kakkokuryori">各国料理</string>
+    <string name="karaoke">カラオケ・パーティー</string>
+    <string name="bar">バー・カクテル</string>
+    <string name="ramen">ラーメン</string>
+    <string name="okonomiyaki">お好み焼き・もんじゃ</string>
+    <string name="cafe">カフェ・スイーツ</string>
+    <string name="other">その他グルメ</string>
 </resources>
