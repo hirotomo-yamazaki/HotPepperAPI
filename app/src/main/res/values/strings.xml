@@ -2,8 +2,8 @@
     <string name="app_name">Hot Pepper API</string>
     <string name="tv_title">Hot Pepper API</string>
     <string name="btn_search">検索</string>
-    <string name="distance_500m">500m</string>
-    <string name="distance_300m">300m</string>
+    <string name="_500m">500m</string>
+    <string name="_300m">300m</string>
     <string name="tv_location">周辺の飲食店を検索…</string>
     <string name="iv_store">Image</string>
     <string name="et_search_keyword">\t駅名を入力</string>
@@ -34,4 +34,21 @@
         <item>カフェ・スイーツ</item>
         <item>その他グルメ</item>
     </string-array>
+    <string name="izakaya">居酒屋</string>
+    <string name="dinningBar">ダイニングバー・バル</string>
+    <string name="sousakuRyori">創作料理</string>
+    <string name="washoku">和食</string>
+    <string name="youshoku">洋食</string>
+    <string name="italian">イタリアン・フレンチ</string>
+    <string name="chuka">中華</string>
+    <string name="yakiniku">焼肉・ホルモン</string>
+    <string name="kankoku">韓国料理</string>
+    <string name="asia">アジア・エスニック料理</string>
+    <string name="kakkokuryori">各国料理</string>
+    <string name="karaoke">カラオケ・パーティー</string>
+    <string name="bar">バー・カクテル</string>
+    <string name="ramen">ラーメン</string>
+    <string name="okonomiyaki">お好み焼き・もんじゃ</string>
+    <string name="cafe">カフェ・スイーツ</string>
+    <string name="other">その他グルメ</string>
 </resources>
