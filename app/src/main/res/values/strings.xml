@@ -12,6 +12,8 @@
     <string name="tv_juusho">住所</string>
     <string name="tv_access">アクセス</string>
 
+    <string name="dialogMain">周辺の飲食店を検索する場合は、\n位置情報を有効にして下さい。</string>
+
     <!--    プルダウンメニュー-->
     <string-array name="spinner_list">
         <item>居酒屋</item>
