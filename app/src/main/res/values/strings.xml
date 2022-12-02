@@ -1,10 +1,54 @@
 <resources>
     <string name="app_name">Hot Pepper API</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tv_title">Hot Pepper API</string>
-    <string name="et_search">\t店名を入力</string>
     <string name="btn_search">検索</string>
     <string name="_500m">500m</string>
     <string name="_300m">300m</string>
-    <string name="tv_location">周辺の飲食店を検索...</string>
+    <string name="tv_location">周辺の飲食店を検索…</string>
+    <string name="iv_store">Image</string>
+    <string name="et_search_keyword">\t駅名を入力</string>
+    <string name="_300mStoreList">300m以内のお店一覧</string>
+    <string name="genre_hint">ジャンルを選択</string>
+    <string name="tv_search_result">検索結果</string>
+
+    <string name="tv_juusho">住所</string>
+    <string name="tv_access">アクセス</string>
+
+    <!--    プルダウンメニュー-->
+    <string-array name="spinner_list">
+        <item>@string/izakaya</item>
+        <item>@string/dinningBar</item>
+        <item>@string/sousakuRyori</item>
+        <item>@string/washoku</item>
+        <item>@string/youshoku</item>
+        <item>@string/italian</item>
+        <item>@string/chuka</item>
+        <item>@string/yakiniku</item>
+        <item>@string/kankoku</item>
+        <item>@string/asia</item>
+        <item>@string/kakkokuryori</item>
+        <item>@string/karaoke</item>
+        <item>@string/bar</item>
+        <item>@string/ramen</item>
+        <item>@string/okonomiyaki</item>
+        <item>@string/cafe</item>
+        <item>@string/other</item>
+    </string-array>
+    <string name="izakaya">居酒屋</string>
+    <string name="dinningBar">ダイニングバー・バル</string>
+    <string name="sousakuRyori">創作料理</string>
+    <string name="washoku">和食</string>
+    <string name="youshoku">洋食</string>
+    <string name="italian">イタリアン・フレンチ</string>
+    <string name="chuka">中華</string>
+    <string name="yakiniku">焼肉・ホルモン</string>
+    <string name="kankoku">韓国料理</string>
+    <string name="asia">アジア・エスニック料理</string>
+    <string name="kakkokuryori">各国料理</string>
+    <string name="karaoke">カラオケ・パーティー</string>
+    <string name="bar">バー・カクテル</string>
+    <string name="ramen">ラーメン</string>
+    <string name="okonomiyaki">お好み焼き・もんじゃ</string>
+    <string name="cafe">カフェ・スイーツ</string>
+    <string name="other">その他グルメ</string>
 </resources>
