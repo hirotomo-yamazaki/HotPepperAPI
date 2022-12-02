@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object Constants {
 
-    const val API_KEY = "6338f6200d8be930"
+    const val API_KEY = BuildConfig.API_KEY
     const val FORMAT = "json"
     private const val BASE_URL = "http://webservice.recruit.co.jp/hotpepper/"
 
