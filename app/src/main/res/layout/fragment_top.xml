@@ -2,12 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    
-    <data>
-        <variable
-            name="dataViewModel"
-            type="com.example.hotpepperapi.viewModel.ViewModel" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_layout"
@@ -105,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/navy"
-            android:text="@string/_300m"
+            android:text="@string/distance_300m"
             app:layout_constraintEnd_toStartOf="@+id/btn_500"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_location" />
@@ -116,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/navy"
-            android:text="@string/_500m"
+            android:text="@string/distance_500m"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_300"
             app:layout_constraintTop_toBottomOf="@+id/tv_location" />

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentStoreListBinding
@@ -17,9 +17,7 @@ import com.example.hotpepperapi.viewModel.ViewModel
 class StoreListFragment : Fragment() {
 
     private lateinit var binding: FragmentStoreListBinding
-
-        private lateinit var viewModel: ViewModel
-//    private val viewModel: ViewModel by viewModels()
+    private val viewModel: ViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +29,6 @@ class StoreListFragment : Fragment() {
             container,
             false
         )
-        viewModel = ViewModelProvider(requireActivity())[ViewModel::class.java]
-        binding.dataViewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
 
         Log.i("StoreListFragment", "onCreateView")
         return binding.root
