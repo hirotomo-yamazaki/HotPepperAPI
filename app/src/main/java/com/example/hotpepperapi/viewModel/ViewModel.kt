@@ -42,6 +42,14 @@ class ViewModel : ViewModel() {
     val position: LiveData<Int>
         get() = _position
 
+    private val _lat = MutableLiveData<Double?>()
+    val lat: LiveData<Double?>
+        get() = _lat
+
+    private val _lng = MutableLiveData<Double?>()
+    val lng: LiveData<Double?>
+        get() = _lng
+
     init {
         _genreCode.value = ""
         _etKeyword.value = ""
@@ -50,6 +58,8 @@ class ViewModel : ViewModel() {
         _storeAddressList.value = mutableListOf()
         _position.value = 0
         _accessList.value = mutableListOf()
+        _lat.value = null
+        _lng.value = null
     }
 
     fun setKeyword(keyword: String) {
@@ -60,8 +70,50 @@ class ViewModel : ViewModel() {
         _genreCode.value = genreCode
     }
 
-    fun setPosition(position:Int){
+    fun setPosition(position: Int) {
         _position.value = position
+    }
+
+    fun setLatLng(latitude: Double?, longitude: Double?) {
+        _lat.value = latitude
+        _lng.value = longitude
+    }
+
+    fun getByLocation() {
+        viewModelScope.launch {
+            byLocation()
+        }
+    }
+
+    private suspend fun byLocation() {
+        val service = Constants.retrofit()
+
+        withContext(Dispatchers.IO) {
+            val listCall = lat.value?.let { lat ->
+                lng.value?.let { lng ->
+                    service.byLocation(
+                        Constants.API_KEY,
+                        lat,
+                        lng,
+                        Constants.FORMAT
+                    )
+                }
+            }
+            listCall?.enqueue(object : Callback<StoreDetail> {
+                override fun onFailure(call: Call<StoreDetail>, t: Throwable) {
+                    Log.e("Error", t.message.toString())
+                }
+
+                override fun onResponse(call: Call<StoreDetail>, response: Response<StoreDetail>) {
+                    if (response.isSuccessful) {
+
+                        val list = response.body()!!
+                        makeStoreNameList(list)
+                    }
+                    Log.i("Response", "Success!")
+                }
+            })
+        }
     }
 
     fun getStoreList() {

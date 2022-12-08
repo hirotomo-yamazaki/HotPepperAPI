@@ -13,4 +13,12 @@ interface ApiConnection {
         @Query("keyword") keyword: String,
         @Query("format") format: String
     ): Call<StoreDetail>
+
+    @GET("gourmet/v1/")
+    fun byLocation(
+        @Query("key") key: String,
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double,
+        @Query("format") format: String
+    ): Call<StoreDetail>
 }
