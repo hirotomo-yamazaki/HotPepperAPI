@@ -59,13 +59,8 @@ class ViewModel : ViewModel() {
         _position.value = 0
         _accessList.value = mutableListOf()
         //TODO("変更必要")
-<<<<<<< HEAD
         _lat.value = null
         _lng.value = null
-=======
-        _lat.value = 35.6809591
-        _lng.value = 139.7673068
->>>>>>> 09ca980 (no message)
     }
 
     fun setKeyword(keyword: String) {
