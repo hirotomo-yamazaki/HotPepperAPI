@@ -75,7 +75,7 @@ class ViewModel : ViewModel() {
         _position.value = position
     }
 
-    fun setLatLng(latitude: Double, longitude: Double) {
+    fun setLatLng(latitude: Double?, longitude: Double?) {
         _lat.value = latitude
         _lng.value = longitude
     }

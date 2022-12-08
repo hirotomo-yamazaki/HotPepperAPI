@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity() {
                                 override fun onLocationResult(result: LocationResult) {
                                     val latitude = location?.latitude
                                     val longitude = location?.longitude
-                                    viewModel.setLatLng(latitude, longitude)
 
+                                    viewModel.setLatLng(latitude, longitude)
                                     // 現在地だけ欲しいので、1回取得したらすぐに外す
                                     fusedLocationClient.removeLocationUpdates(this)
                                 }
@@ -67,15 +67,15 @@ class MainActivity : AppCompatActivity() {
                 Log.i("success", viewModel.lat.value.toString())
             }
             .addOnFailureListener {
-                    // 位置情報の権限が無いため、許可を求める
-                    ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ),
-                        PERMISSION_REQUEST_CODE
-                    )
+                // 位置情報の権限が無いため、許可を求める
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ),
+                    PERMISSION_REQUEST_CODE
+                )
 
                 Log.i("failure", "fail")
             }
