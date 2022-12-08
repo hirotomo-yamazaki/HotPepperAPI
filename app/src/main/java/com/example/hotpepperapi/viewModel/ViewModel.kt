@@ -58,7 +58,6 @@ class ViewModel : ViewModel() {
         _storeAddressList.value = mutableListOf()
         _position.value = 0
         _accessList.value = mutableListOf()
-        //TODO("変更必要")
         _lat.value = null
         _lng.value = null
     }
