@@ -1,6 +1,11 @@
 package com.example.hotpepperapi.fragment
 
+import android.app.AlertDialog
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -83,8 +88,12 @@ class TopFragment : Fragment() {
         }
 
         binding.btn300.setOnClickListener {
-            checkLocation()
-            findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            if (viewModel.lat.value == null || viewModel.lng.value == null){
+                showDialog()
+            }else{
+                checkLocation()
+                findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            }
         }
 
         Log.i("TopFragment", "onViewCreated")
@@ -109,5 +118,16 @@ class TopFragment : Fragment() {
             findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
         }
         Log.i("TopFragment", "checkParam")
+    }
+
+    private fun showDialog(){
+        AlertDialog.Builder(requireContext())
+            .setTitle("Caution")
+            .setIcon(R.drawable.ic_baseline_warning_24)
+            .setMessage(R.string.dialogMain)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }

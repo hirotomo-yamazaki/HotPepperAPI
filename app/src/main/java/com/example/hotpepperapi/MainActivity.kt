@@ -1,25 +1,22 @@
 package com.example.hotpepperapi
 
+import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.location.Location
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.app.ActivityCompat
 import com.example.hotpepperapi.viewModel.ViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: ViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val PERMISSION_REQUEST_CODE = 1234
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +26,15 @@ class MainActivity : AppCompatActivity() {
         location()
     }
 
+    override fun onResume() {
+        super.onResume()
+        location()
+    }
+
     @SuppressLint("MissingPermission")
-    private fun location(){
+    private fun location() {
         fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
+            .addOnSuccessListener { location: Location? ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
                     val latitude = location.latitude
@@ -40,31 +42,42 @@ class MainActivity : AppCompatActivity() {
                     viewModel.setLatLng(latitude, longitude)
 
                     Toast.makeText(this, "位置情報を利用しています。", Toast.LENGTH_LONG).show()
+                } else {
+                    val request = LocationRequest.create()
+                        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                        .setInterval(500)
+                        .setFastestInterval(300)
+
+                    fusedLocationClient
+                        .requestLocationUpdates(
+                            request,
+                            object : LocationCallback() {
+                                override fun onLocationResult(result: LocationResult) {
+                                    val latitude = location?.latitude
+                                    val longitude = location?.longitude
+                                    viewModel.setLatLng(latitude, longitude)
+
+                                    // 現在地だけ欲しいので、1回取得したらすぐに外す
+                                    fusedLocationClient.removeLocationUpdates(this)
+                                }
+                            },
+                            null
+                        )
                 }
+                Log.i("success", viewModel.lat.value.toString())
             }
             .addOnFailureListener {
-                showDialog()
-            }
-    }
+                    // 位置情報の権限が無いため、許可を求める
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ),
+                        PERMISSION_REQUEST_CODE
+                    )
 
-    private fun showDialog(){
-        AlertDialog.Builder(this)
-            .setMessage(R.string.dialogMain)
-            .setPositiveButton("OK") { _, _ ->
-                try {
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    //Uriでどの設定を開くべきかを指定
-                    val uri = Uri.fromParts("package", packageName, null)
-                    intent.data = uri
-                    startActivity(intent)
-
-                } catch (e: ActivityNotFoundException) {
-                    e.printStackTrace()
-                }
+                Log.i("failure", "fail")
             }
-            //if user pushes negative button
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }.show()
     }
 }

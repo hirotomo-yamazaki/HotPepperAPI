@@ -42,12 +42,12 @@ class ViewModel : ViewModel() {
     val position: LiveData<Int>
         get() = _position
 
-    private val _lat = MutableLiveData<Double>()
-    val lat: LiveData<Double>
+    private val _lat = MutableLiveData<Double?>()
+    val lat: LiveData<Double?>
         get() = _lat
 
-    private val _lng = MutableLiveData<Double>()
-    val lng: LiveData<Double>
+    private val _lng = MutableLiveData<Double?>()
+    val lng: LiveData<Double?>
         get() = _lng
 
     init {
@@ -59,8 +59,8 @@ class ViewModel : ViewModel() {
         _position.value = 0
         _accessList.value = mutableListOf()
         //TODO("変更必要")
-        _lat.value = 35.6809591
-        _lng.value = 139.7673068
+        _lat.value = null
+        _lng.value = null
     }
 
     fun setKeyword(keyword: String) {
@@ -75,7 +75,7 @@ class ViewModel : ViewModel() {
         _position.value = position
     }
 
-    fun setLatLng(latitude: Double, longitude: Double) {
+    fun setLatLng(latitude: Double?, longitude: Double?) {
         _lat.value = latitude
         _lng.value = longitude
     }
