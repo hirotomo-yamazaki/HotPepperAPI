@@ -1,5 +1,6 @@
 package com.example.hotpepperapi.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -51,24 +52,24 @@ class TopFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val parent = p0 as Spinner
 
-                val genreCode = when (parent.selectedItem.toString()) {
-                    "居酒屋" -> "G001"
-                    "ダイニングバー・バル" -> "G002"
-                    "創作料理" -> "G003"
-                    "和食" -> "G004"
-                    "洋食" -> "G005"
-                    "イタリアン・フレンチ" -> "G006"
-                    "中華" -> "G007"
-                    "焼肉・ホルモン" -> "G008"
-                    "韓国料理" -> "G017"
-                    "アジア・エスニック料理" -> "G009"
-                    "各国料理" -> "G010"
-                    "カラオケ・パーティ" -> "G011"
-                    "バー・カクテル" -> "G012"
-                    "ラーメン" -> "G013"
-                    "お好み焼き・もんじゃ" -> "G016"
-                    "カフェ・スイーツ" -> "G014"
-                    "その他グルメ" -> "G015"
+                val genreCode = when (parent.selectedItem) {
+                    getString(R.string.izakaya) -> "G001"
+                    getString(R.string.dinningBar) -> "G002"
+                    getString(R.string.sousakuRyori) -> "G003"
+                    getString(R.string.washoku) -> "G004"
+                    getString(R.string.youshoku) -> "G005"
+                    getString(R.string.italian) -> "G006"
+                    getString(R.string.chuka) -> "G007"
+                    getString(R.string.yakiniku) -> "G008"
+                    getString(R.string.kankoku) -> "G017"
+                    getString(R.string.asia) -> "G009"
+                    getString(R.string.kakkokuryori) -> "G010"
+                    getString(R.string.karaoke) -> "G011"
+                    getString(R.string.bar) -> "G012"
+                    getString(R.string.ramen) -> "G013"
+                    getString(R.string.okonomiyaki) -> "G016"
+                    getString(R.string.cafe) -> "G014"
+                    getString(R.string.other) -> "G015"
                     else -> "G001"
                 }
 
@@ -83,8 +84,12 @@ class TopFragment : Fragment() {
         }
 
         binding.btn300.setOnClickListener {
-            checkLocation()
-            findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            if (viewModel.lat.value == null || viewModel.lng.value == null){
+                showDialog()
+            }else{
+                checkLocation()
+                findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            }
         }
 
         Log.i("TopFragment", "onViewCreated")
@@ -109,5 +114,16 @@ class TopFragment : Fragment() {
             findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
         }
         Log.i("TopFragment", "checkParam")
+    }
+
+    private fun showDialog(){
+        AlertDialog.Builder(requireContext())
+            .setTitle("Caution")
+            .setIcon(R.drawable.ic_baseline_warning_24)
+            .setMessage(R.string.dialogMain)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
