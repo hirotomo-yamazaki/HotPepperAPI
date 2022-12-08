@@ -62,12 +62,12 @@ class ViewModel : ViewModel() {
     val lng: LiveData<Double?>
         get() = _lng
 
-    private val _storeLat = MutableLiveData<Double?>()
-    val storeLat: LiveData<Double?>
+    private val _storeLat = MutableLiveData<Double>()
+    val storeLat: LiveData<Double>
         get() = _storeLat
 
-    private val _storeLng = MutableLiveData<Double?>()
-    val storeLng: LiveData<Double?>
+    private val _storeLng = MutableLiveData<Double>()
+    val storeLng: LiveData<Double>
         get() = _storeLng
 
     private val _storeName = MutableLiveData<String>()
@@ -75,6 +75,7 @@ class ViewModel : ViewModel() {
         get() = _storeName
 
     init {
+        _progressBarFlag.value = false
         _genreCode.value = ""
         _etKeyword.value = ""
         _storeList.value = mutableListOf()
@@ -84,8 +85,8 @@ class ViewModel : ViewModel() {
         _accessList.value = mutableListOf()
         _lat.value = null
         _lng.value = null
-        _storeLat.value = null
-        _storeLng.value = null
+        _storeLat.value = 0.0
+        _storeLng.value = 0.0
         _storeName.value = ""
         _latList.value = mutableListOf()
         _lngList.value = mutableListOf()
@@ -103,16 +104,16 @@ class ViewModel : ViewModel() {
         _position.value = position
     }
 
+    fun setStoreName(storeName: String) {
+        _storeName.value = storeName
+    }
+
     fun setLatLng(latitude: Double?, longitude: Double?) {
         _lat.value = latitude
         _lng.value = longitude
     }
 
-    fun setStoreName(storeName: String) {
-        _storeName.value = storeName
-    }
-
-    fun setStoreLatLng(latitude: Double?, longitude: Double?) {
+    fun setStoreLatLng(latitude: Double, longitude: Double) {
         _storeLat.value = latitude
         _storeLng.value = longitude
     }
