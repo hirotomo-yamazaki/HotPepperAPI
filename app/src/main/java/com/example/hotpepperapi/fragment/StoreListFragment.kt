@@ -44,20 +44,42 @@ class StoreListFragment : Fragment() {
             }
         }
 
-        viewModel.storeList.observe(viewLifecycleOwner) {
-            if (!it.isNullOrEmpty()){
+//        viewModel.storeList.observe(viewLifecycleOwner) {
+//            if (!it.isNullOrEmpty()){
+//                binding.lv300.adapter = ArrayAdapter(
+//                    requireContext(),
+//                    android.R.layout.simple_list_item_1,
+//                    it
+//                )
+//                binding.lv300.visibility = View.VISIBLE
+//                binding.tvErrorMsg.visibility = View.GONE
+//            }else{
+//                binding.lv300.visibility = View.GONE
+//                binding.tvErrorMsg.visibility = View.VISIBLE
+//            }
+//        }
+        viewModel.list.observe(viewLifecycleOwner){ list ->
+            if (!list.isNullOrEmpty()){
+
+                val nameList = mutableListOf<String>()
+                for (i in list.indices){
+                    nameList += list[i].name
+                }
+
                 binding.lv300.adapter = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_list_item_1,
-                    it
+                    nameList
                 )
                 binding.lv300.visibility = View.VISIBLE
                 binding.tvErrorMsg.visibility = View.GONE
+
             }else{
                 binding.lv300.visibility = View.GONE
                 binding.tvErrorMsg.visibility = View.VISIBLE
             }
         }
+
 
         binding.lv300.setOnItemClickListener { _, _, position, _ ->
             viewModel.setPosition(position)

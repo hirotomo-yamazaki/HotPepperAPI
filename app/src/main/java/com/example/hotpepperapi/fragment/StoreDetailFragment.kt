@@ -1,7 +1,6 @@
 package com.example.hotpepperapi.fragment
 
 import android.os.Bundle
-import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -39,53 +38,24 @@ class StoreDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.imageList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
+        viewModel.list.observe(viewLifecycleOwner){ list ->
+            viewModel.position.observe(viewLifecycleOwner){ position ->
+
                 Glide.with(requireContext())
-                    .load(list[position])
+                    .load(list[position].photo.mobile.l)
                     .into(binding.ivStoreImage)
-            }
-        }
 
-        viewModel.storeList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                binding.tvStoreName.text = list[position]
-                viewModel.setStoreName(list[position])
-            }
-        }
+                binding.tvStoreName.text = list[position].name
+                binding.tvGenre.text = list[position].genre.name
+                binding.tvStoreAddress.text = list[position].address
+                binding.tvStoreAccess.text = list[position].access
 
-        viewModel.storeGenreList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                binding.tvGenre.text = list[position]
-            }
-        }
-
-        viewModel.storeAddressList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                binding.tvStoreAddress.text = list[position]
-            }
-        }
-
-        viewModel.latList.observe(viewLifecycleOwner) { lat ->
-            viewModel.lngList.observe(viewLifecycleOwner) { lng ->
-                viewModel.position.observe(viewLifecycleOwner) { position ->
-                    viewModel.setStoreLatLng(lat[position], lng[position])
-                }
-            }
-        }
-
-        viewModel.accessList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                binding.tvStoreAccess.text = list[position]
-            }
-        }
-
-        viewModel.urlList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                val html = "店舗サイトは<a href=\"${list[position]}\">こちら</a>から"
+                val html = "店舗サイトは<a href=\"${list[position].urls.pc}\">こちら</a>から"
                 binding.tvUrl.text =
                     HtmlCompat.fromHtml(html, FROM_HTML_MODE_COMPACT)
                 binding.tvUrl.movementMethod = LinkMovementMethod.getInstance()
+
+                viewModel.setStoreLatLng(list[position].lat, list[position].lng)
             }
         }
 

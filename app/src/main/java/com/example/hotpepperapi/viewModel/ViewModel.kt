@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.hotpepperapi.Constants
+import com.example.hotpepperapi.model.Shop
 import com.example.hotpepperapi.model.StoreDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,38 +30,6 @@ class ViewModel : ViewModel() {
     private val _etKeyword = MutableLiveData<String>()
     val etKeyword: LiveData<String>
         get() = _etKeyword
-
-    private val _storeList = MutableLiveData<MutableList<String>>()
-    val storeList: LiveData<MutableList<String>>
-        get() = _storeList
-
-    private val _storeGenreList = MutableLiveData<MutableList<String>>()
-    val storeGenreList: LiveData<MutableList<String>>
-        get() = _storeGenreList
-
-    private val _storeAddressList = MutableLiveData<MutableList<String>>()
-    val storeAddressList: LiveData<MutableList<String>>
-        get() = _storeAddressList
-
-    private val _accessList = MutableLiveData<MutableList<String>>()
-    val accessList: LiveData<MutableList<String>>
-        get() = _accessList
-
-    private val _latList = MutableLiveData<MutableList<Double>>()
-    val latList: LiveData<MutableList<Double>>
-        get() = _latList
-
-    private val _lngList = MutableLiveData<MutableList<Double>>()
-    val lngList: LiveData<MutableList<Double>>
-        get() = _lngList
-
-    private val _imageList = MutableLiveData<MutableList<String>>()
-    val imageList: LiveData<MutableList<String>>
-        get() = _imageList
-
-    private val _urlList = MutableLiveData<MutableList<String>>()
-    val urlList: LiveData<MutableList<String>>
-        get() = _urlList
 
     private val _position = MutableLiveData<Int>()
     val position: LiveData<Int>
@@ -98,27 +67,25 @@ class ViewModel : ViewModel() {
     val freeFood: LiveData<String>
         get() = _freeFood
 
+    private val _list = MutableLiveData<MutableList<Shop>>()
+    val list: LiveData<MutableList<Shop>>
+        get() = _list
+
     init {
         _progressBarFlag.value = false
         _progressBarFlag.value = false
         _genreCode.value = ""
         _etKeyword.value = ""
-        _storeList.value = mutableListOf()
-        _storeGenreList.value = mutableListOf()
-        _storeAddressList.value = mutableListOf()
         _position.value = 0
-        _accessList.value = mutableListOf()
         _lat.value = null
         _lng.value = null
         _storeLat.value = 0.0
         _storeLng.value = 0.0
         _storeName.value = ""
-        _latList.value = mutableListOf()
-        _lngList.value = mutableListOf()
-        _imageList.value = mutableListOf()
         _coupon.value = "0"
         _freeDrink.value = "0"
         _freeFood.value = "0"
+        _list.value = mutableListOf()
     }
 
     fun setKeyword(keyword: String) {
@@ -131,10 +98,6 @@ class ViewModel : ViewModel() {
 
     fun setPosition(position: Int) {
         _position.value = position
-    }
-
-    fun setStoreName(storeName: String) {
-        _storeName.value = storeName
     }
 
     fun setLatLng(latitude: Double?, longitude: Double?) {
@@ -151,7 +114,7 @@ class ViewModel : ViewModel() {
         _coupon.value = "1"
     }
 
-    fun cancelCoupon(){
+    fun cancelCoupon() {
         _coupon.value = "0"
     }
 
@@ -159,7 +122,7 @@ class ViewModel : ViewModel() {
         _freeDrink.value = "1"
     }
 
-    fun cancelFreeDrink(){
+    fun cancelFreeDrink() {
         _freeDrink.value = "0"
     }
 
@@ -167,7 +130,7 @@ class ViewModel : ViewModel() {
         _freeFood.value = "1"
     }
 
-    fun cancelFreeFood(){
+    fun cancelFreeFood() {
         _freeFood.value = "0"
     }
 
@@ -267,37 +230,10 @@ class ViewModel : ViewModel() {
         }
     }
 
-    private fun makeStoreNameList(list: StoreDetail) {
-        val storeNameList = mutableListOf<String>()
-        val storeGenreList = mutableListOf<String>()
-        val storeAddressList = mutableListOf<String>()
-        val logoImage = mutableListOf<String>()
-        val accessList = mutableListOf<String>()
-        val latList = mutableListOf<Double>()
-        val lngList = mutableListOf<Double>()
-        val imageList = mutableListOf<String>()
-        val urlList = mutableListOf<String>()
-
-        for (i in list.results.shop.indices) {
-            storeNameList += list.results.shop[i].name
-            storeGenreList += list.results.shop[i].genre.name
-            storeAddressList += list.results.shop[i].address
-            logoImage += list.results.shop[i].logo_image
-            accessList += list.results.shop[i].access
-            latList += list.results.shop[i].lat
-            lngList += list.results.shop[i].lng
-            imageList += list.results.shop[i].photo.mobile.l
-            urlList += list.results.shop[i].urls.pc
+    private fun makeStoreNameList(lists: StoreDetail) {
+        for (i in lists.results.shop.indices){
+            _list.value?.plusAssign(lists.results.shop[i])
         }
-
-        _storeList.value = storeNameList
-        _storeGenreList.value = storeGenreList
-        _storeAddressList.value = storeAddressList
-        _accessList.value = accessList
-        _latList.value = latList
-        _lngList.value = lngList
-        _imageList.value = imageList
-        _urlList.value = urlList
-        Log.i("ViewModel", storeList.value.toString())
+        Log.i("ViewModel", list.value.toString())
     }
 }
