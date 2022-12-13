@@ -92,7 +92,11 @@ class TopFragment : Fragment() {
                 showDialog()
             }else{
                 checkLocation()
-                findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+                viewModel.apiFlag.observe(viewLifecycleOwner){
+                    if (it){
+                        findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+                    }
+                }
             }
         }
 
@@ -113,7 +117,11 @@ class TopFragment : Fragment() {
         if (!viewModel.etKeyword.value.isNullOrEmpty() && !viewModel.genreCode.value.isNullOrEmpty()) {
 
             viewModel.getStoreList()
-            findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            viewModel.apiFlag.observe(viewLifecycleOwner){
+                if (it){
+                    findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+                }
+            }
         }else{
             showDialog()
         }

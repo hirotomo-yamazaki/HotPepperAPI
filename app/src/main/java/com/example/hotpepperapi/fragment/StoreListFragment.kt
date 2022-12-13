@@ -1,6 +1,7 @@
 package com.example.hotpepperapi.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +63,8 @@ class StoreListFragment : Fragment() {
             viewModel.setPosition(position)
             findNavController().navigate(R.id.action_storeListFragment_to_storeDetailFragment)
         }
+
+        Log.i("StoreList", "onViewCreated")
     }
 
     private fun hideProgressBar() {

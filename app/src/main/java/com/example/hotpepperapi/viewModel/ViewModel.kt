@@ -18,6 +18,10 @@ class ViewModel : ViewModel() {
     val progressBarFlag: LiveData<Boolean>
         get() = _progressBarFlag
 
+    private val _apiFlag = MutableLiveData<Boolean>()
+    val apiFlag: LiveData<Boolean>
+        get() = _apiFlag
+
     private val _genreCode = MutableLiveData<String>()
     val genreCode: LiveData<String>
         get() = _genreCode
@@ -95,6 +99,7 @@ class ViewModel : ViewModel() {
         get() = _freeFood
 
     init {
+        _progressBarFlag.value = false
         _progressBarFlag.value = false
         _genreCode.value = ""
         _etKeyword.value = ""
@@ -177,6 +182,8 @@ class ViewModel : ViewModel() {
         val service = Constants.retrofit()
 
         _progressBarFlag.value = true
+        _apiFlag.value = false
+
         withContext(Dispatchers.IO) {
             val listCall = lat.value?.let { lat ->
                 lng.value?.let { lng ->
@@ -193,12 +200,14 @@ class ViewModel : ViewModel() {
                     Log.e("Error", t.message.toString())
 
                     _progressBarFlag.value = false
+                    _apiFlag.value = true
                 }
 
                 override fun onResponse(call: Call<StoreDetail>, response: Response<StoreDetail>) {
                     if (response.isSuccessful) {
 
                         _progressBarFlag.value = false
+                        _apiFlag.value = true
 
                         val list = response.body()!!
                         makeStoreNameList(list)
@@ -221,6 +230,8 @@ class ViewModel : ViewModel() {
         val service = Constants.retrofit()
 
         _progressBarFlag.value = true
+        _apiFlag.value = false
+
         withContext(Dispatchers.IO) {
             val listCall =
                 service.getStoreList(
@@ -238,12 +249,14 @@ class ViewModel : ViewModel() {
                     Log.e("Error", t.message.toString())
 
                     _progressBarFlag.value = false
+                    _apiFlag.value = true
                 }
 
                 override fun onResponse(call: Call<StoreDetail>, response: Response<StoreDetail>) {
                     if (response.isSuccessful) {
 
                         _progressBarFlag.value = false
+                        _apiFlag.value = true
 
                         val list = response.body()!!
                         makeStoreNameList(list)
