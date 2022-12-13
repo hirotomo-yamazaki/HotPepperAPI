@@ -88,8 +88,12 @@ class TopFragment : Fragment() {
         binding.cbFreeFood.setOnClickListener { onCheckBoxClicked(it) }
 
         binding.btn300.setOnClickListener {
-            checkLocation()
-            findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            if (viewModel.lat.value == null || viewModel.lng.value == null){
+                showDialog()
+            }else{
+                checkLocation()
+                findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            }
         }
 
         Log.i("TopFragment", "onViewCreated")
@@ -129,8 +133,12 @@ class TopFragment : Fragment() {
 
     private fun showDialog(){
         AlertDialog.Builder(requireContext())
-            .setMessage(R.string.dialog)
-            .setPositiveButton("OK", null)
+            .setTitle("Caution")
+            .setIcon(R.drawable.ic_baseline_warning_24)
+            .setMessage(R.string.dialogMain)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
             .show()
     }
 }

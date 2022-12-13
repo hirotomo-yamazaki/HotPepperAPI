@@ -62,12 +62,12 @@ class ViewModel : ViewModel() {
     val position: LiveData<Int>
         get() = _position
 
-    private val _lat = MutableLiveData<Double>()
-    val lat: LiveData<Double>
+    private val _lat = MutableLiveData<Double?>()
+    val lat: LiveData<Double?>
         get() = _lat
 
-    private val _lng = MutableLiveData<Double>()
-    val lng: LiveData<Double>
+    private val _lng = MutableLiveData<Double?>()
+    val lng: LiveData<Double?>
         get() = _lng
 
     private val _storeLat = MutableLiveData<Double>()
@@ -103,10 +103,10 @@ class ViewModel : ViewModel() {
         _storeAddressList.value = mutableListOf()
         _position.value = 0
         _accessList.value = mutableListOf()
-        _lat.value = 35.6809591
-        _lng.value = 139.7673068
-        _storeLat.value = 35.6809591
-        _storeLng.value = 139.7673068
+        _lat.value = null
+        _lng.value = null
+        _storeLat.value = 0.0
+        _storeLng.value = 0.0
         _storeName.value = ""
         _latList.value = mutableListOf()
         _lngList.value = mutableListOf()
@@ -132,7 +132,7 @@ class ViewModel : ViewModel() {
         _storeName.value = storeName
     }
 
-    fun setLatLng(latitude: Double, longitude: Double) {
+    fun setLatLng(latitude: Double?, longitude: Double?) {
         _lat.value = latitude
         _lng.value = longitude
     }
