@@ -25,5 +25,14 @@
     <fragment
         android:id="@+id/storeDetailFragment"
         android:name="com.example.hotpepperapi.fragment.StoreDetailFragment"
-        android:label="StoreDetailFragment" />
+        android:label="StoreDetailFragment" >
+        <action
+            android:id="@+id/action_storeDetailFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.hotpepperapi.fragment.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>

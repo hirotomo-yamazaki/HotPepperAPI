@@ -9,7 +9,6 @@
         android:background="@color/gray"
         tools:context=".fragment.StoreDetailFragment">
 
-
         <TextView
             android:id="@+id/tv_store_name"
             android:layout_width="match_parent"

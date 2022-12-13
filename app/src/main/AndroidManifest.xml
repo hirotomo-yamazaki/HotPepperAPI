@@ -17,6 +17,11 @@
         android:theme="@style/Theme.HotPepperAPI"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDV7xMT1NNuxj-5YjzT34A-KsKPE9QECYI" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
