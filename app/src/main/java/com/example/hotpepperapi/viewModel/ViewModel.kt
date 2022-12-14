@@ -247,6 +247,9 @@ class ViewModel : ViewModel() {
         if(lists.results.results_available == 0){
             _list.value = mutableListOf()
         }else{
+            //APIから返っていくるデータがあれば、元のデータを削除
+            _list.value = mutableListOf()
+
             for (i in lists.results.shop.indices){
                 _list.value?.plusAssign(lists.results.shop[i])
             }
