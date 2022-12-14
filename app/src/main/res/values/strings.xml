@@ -22,6 +22,7 @@
     <string name="cb_free_food">食べ放題</string>
     <string name="tv_check_box">絞り込み条件追加</string>
     <string name="tv_store_url">店舗サイト</string>
+    <string name="tv_url">店舗サイトはこちらをタップ</string>
 
     <string name="dialogMain">周辺の飲食店を検索する場合は、\n位置情報を有効にして下さい。</string>
 

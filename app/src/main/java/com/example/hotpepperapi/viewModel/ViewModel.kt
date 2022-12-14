@@ -71,6 +71,10 @@ class ViewModel : ViewModel() {
     val list: LiveData<MutableList<Shop>>
         get() = _list
 
+    private val _url = MutableLiveData<String>()
+    val url: LiveData<String>
+        get() = _url
+
     init {
         _progressBarFlag.value = false
         _progressBarFlag.value = false
@@ -86,6 +90,7 @@ class ViewModel : ViewModel() {
         _freeDrink.value = "0"
         _freeFood.value = "0"
         _list.value = mutableListOf()
+        _url.value = ""
     }
 
     fun setKeyword(keyword: String) {
@@ -100,6 +105,10 @@ class ViewModel : ViewModel() {
         _position.value = position
     }
 
+    fun setStoreName(storeName: String) {
+        _storeName.value = storeName
+    }
+
     fun setLatLng(latitude: Double?, longitude: Double?) {
         _lat.value = latitude
         _lng.value = longitude
@@ -108,6 +117,10 @@ class ViewModel : ViewModel() {
     fun setStoreLatLng(latitude: Double, longitude: Double) {
         _storeLat.value = latitude
         _storeLng.value = longitude
+    }
+
+    fun setUrl(url: String){
+        _url.value = url
     }
 
     fun setCoupon() {
@@ -231,9 +244,14 @@ class ViewModel : ViewModel() {
     }
 
     private fun makeStoreNameList(lists: StoreDetail) {
-        for (i in lists.results.shop.indices){
-            _list.value?.plusAssign(lists.results.shop[i])
+        if(lists.results.results_available == 0){
+            _list.value = mutableListOf()
+        }else{
+            for (i in lists.results.shop.indices){
+                _list.value?.plusAssign(lists.results.shop[i])
+            }
+            Log.i("ViewModel", list.value.toString())
         }
-        Log.i("ViewModel", list.value.toString())
+
     }
 }

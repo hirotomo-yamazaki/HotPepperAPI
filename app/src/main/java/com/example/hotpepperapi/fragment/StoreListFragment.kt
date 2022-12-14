@@ -37,27 +37,13 @@ class StoreListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.progressBarFlag.observe(viewLifecycleOwner) { flag ->
-            if (flag == true) {
+            if (flag) {
                 showProgressBar()
             } else {
                 hideProgressBar()
             }
         }
 
-//        viewModel.storeList.observe(viewLifecycleOwner) {
-//            if (!it.isNullOrEmpty()){
-//                binding.lv300.adapter = ArrayAdapter(
-//                    requireContext(),
-//                    android.R.layout.simple_list_item_1,
-//                    it
-//                )
-//                binding.lv300.visibility = View.VISIBLE
-//                binding.tvErrorMsg.visibility = View.GONE
-//            }else{
-//                binding.lv300.visibility = View.GONE
-//                binding.tvErrorMsg.visibility = View.VISIBLE
-//            }
-//        }
         viewModel.list.observe(viewLifecycleOwner){ list ->
             if (!list.isNullOrEmpty()){
 
@@ -71,6 +57,7 @@ class StoreListFragment : Fragment() {
                     android.R.layout.simple_list_item_1,
                     nameList
                 )
+
                 binding.lv300.visibility = View.VISIBLE
                 binding.tvErrorMsg.visibility = View.GONE
 

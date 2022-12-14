@@ -110,11 +110,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:linksClickable="true"
+            android:text="@string/tv_url"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_store_url"
-            tools:text="http//agdjfjadsfjdafjakjdf.com" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_store_url" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

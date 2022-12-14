@@ -1,12 +1,9 @@
 package com.example.hotpepperapi.fragment
 
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
-import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -50,13 +47,14 @@ class StoreDetailFragment : Fragment() {
                 binding.tvStoreAddress.text = list[position].address
                 binding.tvStoreAccess.text = list[position].access
 
-                val html = "店舗サイトは<a href=\"${list[position].urls.pc}\">こちら</a>から"
-                binding.tvUrl.text =
-                    HtmlCompat.fromHtml(html, FROM_HTML_MODE_COMPACT)
-                binding.tvUrl.movementMethod = LinkMovementMethod.getInstance()
-
+                viewModel.setStoreName(list[position].name)
+                viewModel.setUrl(list[position].urls.pc)
                 viewModel.setStoreLatLng(list[position].lat, list[position].lng)
             }
+        }
+
+        binding.tvUrl.setOnClickListener {
+            findNavController().navigate(R.id.action_storeDetailFragment_to_webViewFragment)
         }
 
         binding.tvStoreAddress.setOnClickListener {

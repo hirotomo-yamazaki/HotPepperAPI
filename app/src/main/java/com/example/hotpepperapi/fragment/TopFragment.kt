@@ -89,7 +89,7 @@ class TopFragment : Fragment() {
 
         binding.btn300.setOnClickListener {
             if (viewModel.lat.value == null || viewModel.lng.value == null){
-                showDialog()
+                showLocationDialog()
             }else{
                 checkLocation()
                 viewModel.apiFlag.observe(viewLifecycleOwner){
@@ -114,7 +114,7 @@ class TopFragment : Fragment() {
         viewModel.setKeyword(keyword)
 
         //viewModelに店名と駅名が保存されていたら画面遷移
-        if (!viewModel.etKeyword.value.isNullOrEmpty() && !viewModel.genreCode.value.isNullOrEmpty()) {
+        if (!binding.etSearchKeyword.text.isNullOrEmpty()) {
 
             viewModel.getStoreList()
             viewModel.apiFlag.observe(viewLifecycleOwner){
@@ -123,7 +123,7 @@ class TopFragment : Fragment() {
                 }
             }
         }else{
-            showDialog()
+            showEditTextDialog()
         }
     }
 
@@ -139,11 +139,22 @@ class TopFragment : Fragment() {
         }
     }
 
-    private fun showDialog(){
+    private fun showLocationDialog(){
         AlertDialog.Builder(requireContext())
             .setTitle("Caution")
             .setIcon(R.drawable.ic_baseline_warning_24)
             .setMessage(R.string.dialogMain)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showEditTextDialog(){
+        AlertDialog.Builder(requireContext())
+            .setTitle("Caution")
+            .setIcon(R.drawable.ic_baseline_warning_24)
+            .setMessage(R.string.dialog)
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
             }
