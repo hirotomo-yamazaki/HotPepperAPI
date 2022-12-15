@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.hotpepperapi.Constants
+import com.example.hotpepperapi.model.ForMap
 import com.example.hotpepperapi.model.Shop
 import com.example.hotpepperapi.model.StoreDetail
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,10 @@ class ViewModel : ViewModel() {
     private val _apiFlag = MutableLiveData<Boolean>()
     val apiFlag: LiveData<Boolean>
         get() = _apiFlag
+
+    private val _multipleFlag = MutableLiveData<Boolean>()
+    val multipleFlag: LiveData<Boolean>
+        get() = _multipleFlag
 
     private val _genreCode = MutableLiveData<String>()
     val genreCode: LiveData<String>
@@ -43,18 +48,6 @@ class ViewModel : ViewModel() {
     val lng: LiveData<Double?>
         get() = _lng
 
-    private val _storeLat = MutableLiveData<Double>()
-    val storeLat: LiveData<Double>
-        get() = _storeLat
-
-    private val _storeLng = MutableLiveData<Double>()
-    val storeLng: LiveData<Double>
-        get() = _storeLng
-
-    private val _storeName = MutableLiveData<String>()
-    val storeName: LiveData<String>
-        get() = _storeName
-
     private val _coupon = MutableLiveData<String>()
     val coupon: LiveData<String>
         get() = _coupon
@@ -75,22 +68,25 @@ class ViewModel : ViewModel() {
     val url: LiveData<String>
         get() = _url
 
+    private val _forMap = MutableLiveData<ForMap?>()
+    val forMap: LiveData<ForMap?>
+        get() = _forMap
+
     init {
         _progressBarFlag.value = false
         _progressBarFlag.value = false
+        _multipleFlag.value = false
         _genreCode.value = ""
         _etKeyword.value = ""
         _position.value = 0
         _lat.value = null
         _lng.value = null
-        _storeLat.value = 0.0
-        _storeLng.value = 0.0
-        _storeName.value = ""
         _coupon.value = "0"
         _freeDrink.value = "0"
         _freeFood.value = "0"
         _list.value = mutableListOf()
         _url.value = ""
+        _forMap.value = null
     }
 
     fun setKeyword(keyword: String) {
@@ -105,21 +101,12 @@ class ViewModel : ViewModel() {
         _position.value = position
     }
 
-    fun setStoreName(storeName: String) {
-        _storeName.value = storeName
-    }
-
     fun setLatLng(latitude: Double?, longitude: Double?) {
         _lat.value = latitude
         _lng.value = longitude
     }
 
-    fun setStoreLatLng(latitude: Double, longitude: Double) {
-        _storeLat.value = latitude
-        _storeLng.value = longitude
-    }
-
-    fun setUrl(url: String){
+    fun setUrl(url: String) {
         _url.value = url
     }
 
@@ -147,6 +134,14 @@ class ViewModel : ViewModel() {
         _freeFood.value = "0"
     }
 
+    fun setMultiple(flag: Boolean){
+        _multipleFlag.value = flag
+    }
+
+    fun setForMap(list: ForMap) {
+        _forMap.value = list
+    }
+
     /** 位置情報から周辺飲食店を検索 */
     fun getByLocation() {
         viewModelScope.launch {
@@ -159,6 +154,7 @@ class ViewModel : ViewModel() {
 
         _progressBarFlag.value = true
         _apiFlag.value = false
+        _multipleFlag.value = true
 
         withContext(Dispatchers.IO) {
             val listCall = lat.value?.let { lat ->
@@ -207,6 +203,7 @@ class ViewModel : ViewModel() {
 
         _progressBarFlag.value = true
         _apiFlag.value = false
+        _multipleFlag.value = false
 
         withContext(Dispatchers.IO) {
             val listCall =
@@ -244,13 +241,13 @@ class ViewModel : ViewModel() {
     }
 
     private fun makeStoreNameList(lists: StoreDetail) {
-        if(lists.results.results_available == 0){
+        if (lists.results.results_available == 0) {
             _list.value = mutableListOf()
-        }else{
+        } else {
             //APIから返っていくるデータがあれば、元のデータを削除
             _list.value = mutableListOf()
 
-            for (i in lists.results.shop.indices){
+            for (i in lists.results.shop.indices) {
                 _list.value?.plusAssign(lists.results.shop[i])
             }
             Log.i("ViewModel", list.value.toString())
