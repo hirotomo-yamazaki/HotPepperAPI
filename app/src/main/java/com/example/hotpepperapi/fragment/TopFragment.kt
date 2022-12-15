@@ -16,6 +16,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentTopBinding
+import com.example.hotpepperapi.setSafeClickListener
 import com.example.hotpepperapi.viewModel.ViewModel
 
 class TopFragment : Fragment() {
@@ -46,7 +47,7 @@ class TopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSearch.setOnClickListener { checkParam() }
+        binding.btnSearch.setSafeClickListener { checkParam() }
 
         binding.spGenre.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
@@ -87,7 +88,7 @@ class TopFragment : Fragment() {
         binding.cbFreeDrink.setOnClickListener { onCheckBoxClicked(it) }
         binding.cbFreeFood.setOnClickListener { onCheckBoxClicked(it) }
 
-        binding.btn300.setOnClickListener {
+        binding.btn300.setSafeClickListener {
             if (viewModel.lat.value == null || viewModel.lng.value == null){
                 showLocationDialog()
             }else{
@@ -97,6 +98,14 @@ class TopFragment : Fragment() {
                         findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
                     }
                 }
+            }
+        }
+
+        viewModel.progressBarFlag.observe(viewLifecycleOwner) { flag ->
+            if (flag) {
+                showProgressBar()
+            } else {
+                hideProgressBar()
             }
         }
 
@@ -159,5 +168,13 @@ class TopFragment : Fragment() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
     }
 }

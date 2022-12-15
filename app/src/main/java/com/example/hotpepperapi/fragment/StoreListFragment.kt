@@ -36,14 +36,6 @@ class StoreListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.progressBarFlag.observe(viewLifecycleOwner) { flag ->
-            if (flag) {
-                showProgressBar()
-            } else {
-                hideProgressBar()
-            }
-        }
-
         viewModel.list.observe(viewLifecycleOwner){ list ->
             if (!list.isNullOrEmpty()){
 
@@ -74,13 +66,5 @@ class StoreListFragment : Fragment() {
         }
 
         Log.i("StoreList", "onViewCreated")
-    }
-
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
     }
 }
