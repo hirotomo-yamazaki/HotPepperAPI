@@ -59,12 +59,10 @@ class StoreListFragment : Fragment() {
             }
         }
 
-
         binding.lv300.setOnItemClickListener { _, _, position, _ ->
             viewModel.setPosition(position)
             findNavController().navigate(R.id.action_storeListFragment_to_storeDetailFragment)
         }
-
         Log.i("StoreList", "onViewCreated")
     }
 }
