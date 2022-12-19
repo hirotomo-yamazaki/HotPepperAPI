@@ -2,7 +2,6 @@ package com.example.hotpepperapi.fragment
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,20 +32,46 @@ class MapsFragment : Fragment() {
 
         callback = OnMapReadyCallback { googleMap ->
 
-            viewModel.storeLat.observe(viewLifecycleOwner) { lat ->
-                viewModel.storeLng.observe(viewLifecycleOwner) { lng ->
-                    val store = LatLng(lat, lng)
+            viewModel.list.observe(viewLifecycleOwner) { list ->
+                viewModel.multipleFlag.observe(viewLifecycleOwner) { flag ->
 
-                    Log.i("MFlat", viewModel.storeLat.value.toString())
-                    Log.i("MFlng", viewModel.storeLng.value.toString())
+                    if (flag) {
 
-                    googleMap.addMarker(
-                        MarkerOptions().position(store).title(viewModel.storeName.value)
-                    )
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(store, 15F)) //zoom表示
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(store))
-                    googleMap.uiSettings.isZoomControlsEnabled = true //zoomボタン表示
+                        for (i in list.indices) {
+                            val store = LatLng(list[i].lat, list[i].lng)
+
+                            googleMap.addMarker(
+                                MarkerOptions().position(store).title(list[i].name)
+                            )
+                            googleMap.moveCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    store,
+                                    15F
+                                )
+                            ) //zoom表示
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(store))
+                        }
+
+                    } else {
+
+                        viewModel.forMap.observe(viewLifecycleOwner) {
+                            val store = LatLng(it!!.lat, it.lng)
+
+                            googleMap.addMarker(
+                                MarkerOptions().position(store).title(it.name)
+                            )
+                            googleMap.moveCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    store,
+                                    15F
+                                )
+                            ) //zoom表示
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(store))
+                        }
+                    }
                 }
+
+                googleMap.uiSettings.isZoomControlsEnabled = true //zoomボタン表示
             }
         }
 

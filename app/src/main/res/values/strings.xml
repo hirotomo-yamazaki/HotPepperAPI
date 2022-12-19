@@ -25,6 +25,10 @@
     <string name="tv_url">店舗サイトはこちらをタップ</string>
 
     <string name="dialogMain">周辺の飲食店を検索する場合は、\n位置情報を有効にして下さい。</string>
+    <string name="dialogHowto">表示方法を選択</string>
+    <string name="selectHowto">リスト表示かマップ表示かを選択して下さい。</string>
+    <string name="showList">リスト表示</string>
+    <string name="showMap">マップ表示</string>
 
     <!--    プルダウンメニュー-->
     <string-array name="spinner_list">
