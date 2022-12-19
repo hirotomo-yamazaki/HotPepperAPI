@@ -123,28 +123,28 @@ class ViewModel : ViewModel() {
         _url.value = url
     }
 
-    fun setCoupon() {
-        _coupon.value = "1"
+    fun couponCheck(isChecked: Boolean){
+        if (isChecked){
+            _coupon.value = "1"
+        }else{
+            _coupon.value = "0"
+        }
     }
 
-    fun cancelCoupon() {
-        _coupon.value = "0"
+    fun freeDrinkCheck(isChecked: Boolean){
+        if (isChecked){
+            _freeDrink.value = "1"
+        }else{
+            _freeDrink.value = "0"
+        }
     }
 
-    fun setFreeDrink() {
-        _freeDrink.value = "1"
-    }
-
-    fun cancelFreeDrink() {
-        _freeDrink.value = "0"
-    }
-
-    fun setFreeFood() {
-        _freeFood.value = "1"
-    }
-
-    fun cancelFreeFood() {
-        _freeFood.value = "0"
+    fun freeFoodCheck(isChecked: Boolean){
+        if (isChecked){
+            _freeFood.value = "1"
+        }else{
+            _freeFood.value = "0"
+        }
     }
 
     /** 位置情報から周辺飲食店を検索 */

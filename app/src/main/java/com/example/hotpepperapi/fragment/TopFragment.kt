@@ -136,14 +136,14 @@ class TopFragment : Fragment() {
         }
     }
 
-    private fun onCheckBoxClicked(view: View){
-        if (view is CheckBox){
+    private fun onCheckBoxClicked(view: View) {
+        if (view is CheckBox) {
             val checked: Boolean = view.isChecked
 
-            when(view.id){
-                R.id.cb_coupon -> if(checked) viewModel.setCoupon() else viewModel.cancelCoupon()
-                R.id.cb_free_drink -> if(checked) viewModel.setFreeDrink() else viewModel.cancelFreeDrink()
-                R.id.cb_free_food -> if(checked) viewModel.setFreeFood() else viewModel.cancelFreeFood()
+            when (view.id) {
+                R.id.cb_coupon -> viewModel.couponCheck(checked)
+                R.id.cb_free_drink -> viewModel.freeDrinkCheck(checked)
+                R.id.cb_free_food -> viewModel.freeFoodCheck(checked)
             }
         }
     }
