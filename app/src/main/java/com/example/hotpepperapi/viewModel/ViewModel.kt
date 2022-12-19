@@ -142,14 +142,6 @@ class ViewModel : ViewModel() {
         _forMap.value = list
     }
 
-    fun setMultiple(flag: Boolean){
-        _multipleFlag.value = flag
-    }
-
-    fun setForMap(list: ForMap) {
-        _forMap.value = list
-    }
-
     /** 位置情報から周辺飲食店を検索 */
     fun getByLocation() {
         viewModelScope.launch {
