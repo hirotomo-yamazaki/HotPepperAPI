@@ -9,12 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentTopBinding
+import com.example.hotpepperapi.setSafeClickListener
 import com.example.hotpepperapi.viewModel.ViewModel
 
 class TopFragment : Fragment() {
@@ -39,17 +41,16 @@ class TopFragment : Fragment() {
             binding.spGenre.adapter = adapter
         }
 
-        Log.i("TopFragment", "onCreateView")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSearch.setOnClickListener { checkParam() }
+        binding.btnSearch.setSafeClickListener { checkParam() }
 
         binding.spGenre.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 val parent = p0 as Spinner
 
                 val genreCode = when (parent.selectedItem) {
@@ -83,12 +84,28 @@ class TopFragment : Fragment() {
             }
         }
 
-        binding.btn300.setOnClickListener {
+        binding.cbCoupon.setOnClickListener { onCheckBoxClicked(it) }
+        binding.cbFreeDrink.setOnClickListener { onCheckBoxClicked(it) }
+        binding.cbFreeFood.setOnClickListener { onCheckBoxClicked(it) }
+
+        binding.btn300.setSafeClickListener {
             if (viewModel.lat.value == null || viewModel.lng.value == null){
-                showDialog()
+                showLocationDialog()
             }else{
                 checkLocation()
-                findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+                viewModel.apiFlag.observe(viewLifecycleOwner){
+                    if (it){
+                        findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+                    }
+                }
+            }
+        }
+
+        viewModel.progressBarFlag.observe(viewLifecycleOwner) { flag ->
+            if (flag) {
+                showProgressBar()
+            } else {
+                hideProgressBar()
             }
         }
 
@@ -104,19 +121,34 @@ class TopFragment : Fragment() {
 
         //入力された店名と駅名をviewModelに保存
         viewModel.setKeyword(keyword)
-        Log.i("keyword", viewModel.etKeyword.value.toString())
-        Log.i("genreCode", viewModel.genreCode.value.toString())
 
         //viewModelに店名と駅名が保存されていたら画面遷移
-        if (!viewModel.etKeyword.value.isNullOrEmpty() && !viewModel.genreCode.value.isNullOrEmpty()) {
+        if (!binding.etSearchKeyword.text.isNullOrEmpty()) {
+
             viewModel.getStoreList()
-            Log.i("navCon", "画面遷移")
-            findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            viewModel.apiFlag.observe(viewLifecycleOwner){
+                if (it){
+                    findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+                }
+            }
+        }else{
+            showEditTextDialog()
         }
-        Log.i("TopFragment", "checkParam")
     }
 
-    private fun showDialog(){
+    private fun onCheckBoxClicked(view: View) {
+        if (view is CheckBox) {
+            val checked: Boolean = view.isChecked
+
+            when (view.id) {
+                R.id.cb_coupon -> viewModel.couponCheck(checked)
+                R.id.cb_free_drink -> viewModel.freeDrinkCheck(checked)
+                R.id.cb_free_food -> viewModel.freeFoodCheck(checked)
+            }
+        }
+    }
+
+    private fun showLocationDialog(){
         AlertDialog.Builder(requireContext())
             .setTitle("Caution")
             .setIcon(R.drawable.ic_baseline_warning_24)
@@ -125,5 +157,24 @@ class TopFragment : Fragment() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun showEditTextDialog(){
+        AlertDialog.Builder(requireContext())
+            .setTitle("Caution")
+            .setIcon(R.drawable.ic_baseline_warning_24)
+            .setMessage(R.string.dialog)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
     }
 }

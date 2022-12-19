@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.hotpepperapi.Constants
+import com.example.hotpepperapi.model.Shop
 import com.example.hotpepperapi.model.StoreDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +19,10 @@ class ViewModel : ViewModel() {
     val progressBarFlag: LiveData<Boolean>
         get() = _progressBarFlag
 
+    private val _apiFlag = MutableLiveData<Boolean>()
+    val apiFlag: LiveData<Boolean>
+        get() = _apiFlag
+
     private val _genreCode = MutableLiveData<String>()
     val genreCode: LiveData<String>
         get() = _genreCode
@@ -25,30 +30,6 @@ class ViewModel : ViewModel() {
     private val _etKeyword = MutableLiveData<String>()
     val etKeyword: LiveData<String>
         get() = _etKeyword
-
-    private val _storeList = MutableLiveData<MutableList<String>>()
-    val storeList: LiveData<MutableList<String>>
-        get() = _storeList
-
-    private val _storeGenreList = MutableLiveData<MutableList<String>>()
-    val storeGenreList: LiveData<MutableList<String>>
-        get() = _storeGenreList
-
-    private val _storeAddressList = MutableLiveData<MutableList<String>>()
-    val storeAddressList: LiveData<MutableList<String>>
-        get() = _storeAddressList
-
-    private val _accessList = MutableLiveData<MutableList<String>>()
-    val accessList: LiveData<MutableList<String>>
-        get() = _accessList
-
-    private val _latList = MutableLiveData<MutableList<Double>>()
-    val latList: LiveData<MutableList<Double>>
-        get() = _latList
-
-    private val _lngList = MutableLiveData<MutableList<Double>>()
-    val lngList: LiveData<MutableList<Double>>
-        get() = _lngList
 
     private val _position = MutableLiveData<Int>()
     val position: LiveData<Int>
@@ -74,22 +55,42 @@ class ViewModel : ViewModel() {
     val storeName: LiveData<String>
         get() = _storeName
 
+    private val _coupon = MutableLiveData<String>()
+    val coupon: LiveData<String>
+        get() = _coupon
+
+    private val _freeDrink = MutableLiveData<String>()
+    val freeDrink: LiveData<String>
+        get() = _freeDrink
+
+    private val _freeFood = MutableLiveData<String>()
+    val freeFood: LiveData<String>
+        get() = _freeFood
+
+    private val _list = MutableLiveData<MutableList<Shop>>()
+    val list: LiveData<MutableList<Shop>>
+        get() = _list
+
+    private val _url = MutableLiveData<String>()
+    val url: LiveData<String>
+        get() = _url
+
     init {
+        _progressBarFlag.value = false
         _progressBarFlag.value = false
         _genreCode.value = ""
         _etKeyword.value = ""
-        _storeList.value = mutableListOf()
-        _storeGenreList.value = mutableListOf()
-        _storeAddressList.value = mutableListOf()
         _position.value = 0
-        _accessList.value = mutableListOf()
         _lat.value = null
         _lng.value = null
         _storeLat.value = 0.0
         _storeLng.value = 0.0
         _storeName.value = ""
-        _latList.value = mutableListOf()
-        _lngList.value = mutableListOf()
+        _coupon.value = "0"
+        _freeDrink.value = "0"
+        _freeFood.value = "0"
+        _list.value = mutableListOf()
+        _url.value = ""
     }
 
     fun setKeyword(keyword: String) {
@@ -118,6 +119,34 @@ class ViewModel : ViewModel() {
         _storeLng.value = longitude
     }
 
+    fun setUrl(url: String){
+        _url.value = url
+    }
+
+    fun couponCheck(isChecked: Boolean){
+        if (isChecked){
+            _coupon.value = "1"
+        }else{
+            _coupon.value = "0"
+        }
+    }
+
+    fun freeDrinkCheck(isChecked: Boolean){
+        if (isChecked){
+            _freeDrink.value = "1"
+        }else{
+            _freeDrink.value = "0"
+        }
+    }
+
+    fun freeFoodCheck(isChecked: Boolean){
+        if (isChecked){
+            _freeFood.value = "1"
+        }else{
+            _freeFood.value = "0"
+        }
+    }
+
     /** 位置情報から周辺飲食店を検索 */
     fun getByLocation() {
         viewModelScope.launch {
@@ -129,6 +158,8 @@ class ViewModel : ViewModel() {
         val service = Constants.retrofit()
 
         _progressBarFlag.value = true
+        _apiFlag.value = false
+
         withContext(Dispatchers.IO) {
             val listCall = lat.value?.let { lat ->
                 lng.value?.let { lng ->
@@ -145,12 +176,14 @@ class ViewModel : ViewModel() {
                     Log.e("Error", t.message.toString())
 
                     _progressBarFlag.value = false
+                    _apiFlag.value = true
                 }
 
                 override fun onResponse(call: Call<StoreDetail>, response: Response<StoreDetail>) {
                     if (response.isSuccessful) {
 
                         _progressBarFlag.value = false
+                        _apiFlag.value = true
 
                         val list = response.body()!!
                         makeStoreNameList(list)
@@ -173,24 +206,33 @@ class ViewModel : ViewModel() {
         val service = Constants.retrofit()
 
         _progressBarFlag.value = true
+        _apiFlag.value = false
+
         withContext(Dispatchers.IO) {
-            val listCall = service.getStoreList(
-                Constants.API_KEY,
-                genreCode.value.toString(),
-                etKeyword.value.toString(),
-                Constants.FORMAT
-            )
+            val listCall =
+                service.getStoreList(
+                    Constants.API_KEY,
+                    genreCode.value.toString(),
+                    etKeyword.value.toString(),
+                    coupon.value.toString(),
+                    freeDrink.value.toString(),
+                    freeFood.value.toString(),
+                    Constants.FORMAT
+                )
+
             listCall.enqueue(object : Callback<StoreDetail> {
                 override fun onFailure(call: Call<StoreDetail>, t: Throwable) {
                     Log.e("Error", t.message.toString())
 
                     _progressBarFlag.value = false
+                    _apiFlag.value = true
                 }
 
                 override fun onResponse(call: Call<StoreDetail>, response: Response<StoreDetail>) {
                     if (response.isSuccessful) {
 
                         _progressBarFlag.value = false
+                        _apiFlag.value = true
 
                         val list = response.body()!!
                         makeStoreNameList(list)
@@ -201,31 +243,18 @@ class ViewModel : ViewModel() {
         }
     }
 
-    private fun makeStoreNameList(list: StoreDetail) {
-        val storeNameList = mutableListOf<String>()
-        val storeGenreList = mutableListOf<String>()
-        val storeAddressList = mutableListOf<String>()
-        val logoImage = mutableListOf<String>()
-        val accessList = mutableListOf<String>()
-        val latList = mutableListOf<Double>()
-        val lngList = mutableListOf<Double>()
+    private fun makeStoreNameList(lists: StoreDetail) {
+        if(lists.results.results_available == 0){
+            _list.value = mutableListOf()
+        }else{
+            //APIから返っていくるデータがあれば、元のデータを削除
+            _list.value = mutableListOf()
 
-        for (i in list.results.shop.indices) {
-            storeNameList += list.results.shop[i].name
-            storeGenreList += list.results.shop[i].genre.name
-            storeAddressList += list.results.shop[i].address
-            logoImage += list.results.shop[i].logo_image
-            accessList += list.results.shop[i].access
-            latList += list.results.shop[i].lat
-            lngList += list.results.shop[i].lng
+            for (i in lists.results.shop.indices){
+                _list.value?.plusAssign(lists.results.shop[i])
+            }
+            Log.i("ViewModel", list.value.toString())
         }
 
-        _storeList.value = storeNameList
-        _storeGenreList.value = storeGenreList
-        _storeAddressList.value = storeAddressList
-        _accessList.value = accessList
-        _latList.value = latList
-        _lngList.value = lngList
-        Log.i("ViewModel", storeList.value.toString())
     }
 }

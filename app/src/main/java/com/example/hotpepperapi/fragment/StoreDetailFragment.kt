@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentStoreDetailBinding
 import com.example.hotpepperapi.viewModel.ViewModel
@@ -34,37 +35,26 @@ class StoreDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.storeList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                binding.tvStoreName.text = list[position]
-                viewModel.setStoreName(list[position])
+        viewModel.list.observe(viewLifecycleOwner){ list ->
+            viewModel.position.observe(viewLifecycleOwner){ position ->
+
+                Glide.with(requireContext())
+                    .load(list[position].photo.mobile.l)
+                    .into(binding.ivStoreImage)
+
+                binding.tvStoreName.text = list[position].name
+                binding.tvGenre.text = list[position].genre.name
+                binding.tvStoreAddress.text = list[position].address
+                binding.tvStoreAccess.text = list[position].access
+
+                viewModel.setStoreName(list[position].name)
+                viewModel.setUrl(list[position].urls.pc)
+                viewModel.setStoreLatLng(list[position].lat, list[position].lng)
             }
         }
 
-        viewModel.storeGenreList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                binding.tvGenre.text = list[position]
-            }
-        }
-
-        viewModel.storeAddressList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                binding.tvStoreAddress.text = list[position]
-            }
-        }
-
-        viewModel.latList.observe(viewLifecycleOwner) { lat ->
-            viewModel.lngList.observe(viewLifecycleOwner) { lng ->
-                viewModel.position.observe(viewLifecycleOwner) { position ->
-                    viewModel.setStoreLatLng(lat[position], lng[position])
-                }
-            }
-        }
-
-        viewModel.accessList.observe(viewLifecycleOwner) { list ->
-            viewModel.position.observe(viewLifecycleOwner) { position ->
-                binding.tvStoreAccess.text = list[position]
-            }
+        binding.tvUrl.setOnClickListener {
+            findNavController().navigate(R.id.action_storeDetailFragment_to_webViewFragment)
         }
 
         binding.tvStoreAddress.setOnClickListener {

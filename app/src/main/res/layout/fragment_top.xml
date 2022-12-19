@@ -24,7 +24,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/et_search_keyword"
@@ -46,39 +55,85 @@
             android:id="@+id/tv_genre_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/genre_hint"
-            android:textSize="18sp"
-            android:textColor="@color/orange"
-            android:textStyle="bold"
             android:layout_margin="16dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/genre_hint"
+            android:textColor="@color/orange"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/sp_genre"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_search_keyword"
-            app:layout_constraintBottom_toTopOf="@+id/sp_genre"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_search_keyword" />
 
         <Spinner
             android:id="@+id/sp_genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"
-            android:textSize="20sp"
             android:background="@drawable/shape_rounded_corners"
-            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center_horizontal"
+            android:spinnerMode="dialog"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_genre_hint"
-            app:layout_constraintBottom_toTopOf="@+id/btn_search"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_genre_hint" />
+
+        <TextView
+            android:id="@+id/tv_check_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/tv_check_box"
+            android:textAlignment="center"
+            android:textColor="@color/orange"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/ll_check_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_genre" />
+
+        <LinearLayout
+            android:id="@+id/ll_check_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/btn_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_genre">
+
+            <CheckBox
+                android:id="@+id/cb_coupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cb_coupon" />
+
+            <CheckBox
+                android:id="@+id/cb_free_drink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cb_free_drink" />
+
+            <CheckBox
+                android:id="@+id/cb_free_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cb_free_food" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/navy"
             android:text="@string/btn_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sp_genre" />
+            app:layout_constraintTop_toBottomOf="@+id/ll_check_box" />
 
         <TextView
             android:id="@+id/tv_location"

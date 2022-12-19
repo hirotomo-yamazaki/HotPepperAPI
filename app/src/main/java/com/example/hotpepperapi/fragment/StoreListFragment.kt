@@ -30,42 +30,39 @@ class StoreListFragment : Fragment() {
             false
         )
 
-        Log.i("StoreListFragment", "onCreateView")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.progressBarFlag.observe(viewLifecycleOwner) { flag ->
-            if (flag == true) {
-                showProgressBar()
-            } else {
-                hideProgressBar()
-            }
-        }
+        viewModel.list.observe(viewLifecycleOwner){ list ->
+            if (!list.isNullOrEmpty()){
 
-        viewModel.storeList.observe(viewLifecycleOwner) {
-            binding.lv300.adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                it
-            )
+                val nameList = mutableListOf<String>()
+                for (i in list.indices){
+                    nameList += list[i].name
+                }
+
+                binding.lv300.adapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    nameList
+                )
+
+                binding.lv300.visibility = View.VISIBLE
+                binding.tvErrorMsg.visibility = View.GONE
+
+            }else{
+                binding.lv300.visibility = View.GONE
+                binding.tvErrorMsg.visibility = View.VISIBLE
+            }
         }
 
         binding.lv300.setOnItemClickListener { _, _, position, _ ->
             viewModel.setPosition(position)
             findNavController().navigate(R.id.action_storeListFragment_to_storeDetailFragment)
         }
-
-        Log.i("StoreListFragment", "onViewCreated")
-    }
-
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
+        Log.i("StoreList", "onViewCreated")
     }
 }
