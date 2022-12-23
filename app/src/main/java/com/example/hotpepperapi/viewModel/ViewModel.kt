@@ -110,31 +110,31 @@ class ViewModel : ViewModel() {
         _url.value = url
     }
 
-    fun couponCheck(isChecked: Boolean){
-        if (isChecked){
+    fun couponCheck(isChecked: Boolean) {
+        if (isChecked) {
             _coupon.value = "1"
-        }else{
+        } else {
             _coupon.value = "0"
         }
     }
 
-    fun freeDrinkCheck(isChecked: Boolean){
-        if (isChecked){
+    fun freeDrinkCheck(isChecked: Boolean) {
+        if (isChecked) {
             _freeDrink.value = "1"
-        }else{
+        } else {
             _freeDrink.value = "0"
         }
     }
 
-    fun freeFoodCheck(isChecked: Boolean){
-        if (isChecked){
+    fun freeFoodCheck(isChecked: Boolean) {
+        if (isChecked) {
             _freeFood.value = "1"
-        }else{
+        } else {
             _freeFood.value = "0"
         }
     }
 
-    fun setMultiple(flag: Boolean){
+    fun setMultiple(flag: Boolean) {
         _multipleFlag.value = flag
     }
 
