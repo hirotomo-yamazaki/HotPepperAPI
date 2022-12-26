@@ -241,7 +241,7 @@ class ViewModel : ViewModel() {
     }
 
     private fun makeStoreNameList(lists: StoreDetail) {
-        if (lists.results.results_available == 0) {
+        if (lists.results.resultsAvailable == 0) {
             _list.value = mutableListOf()
         } else {
             //APIから返っていくるデータがあれば、元のデータを削除
@@ -252,6 +252,5 @@ class ViewModel : ViewModel() {
             }
             Log.i("ViewModel", list.value.toString())
         }
-
     }
 }

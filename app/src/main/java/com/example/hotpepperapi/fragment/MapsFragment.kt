@@ -30,52 +30,40 @@ class MapsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        callback = OnMapReadyCallback { googleMap ->
 
-            viewModel.list.observe(viewLifecycleOwner) { list ->
-                viewModel.multipleFlag.observe(viewLifecycleOwner) { flag ->
 
+        viewModel.list.observe(viewLifecycleOwner) { list ->
+            viewModel.multipleFlag.observe(viewLifecycleOwner) { flag ->
+                viewModel.forMap.observe(viewLifecycleOwner) {
                     if (flag) {
-
                         for (i in list.indices) {
-                            val store = LatLng(list[i].lat, list[i].lng)
-
-                            googleMap.addMarker(
-                                MarkerOptions().position(store).title(list[i].name)
-                            )
-                            googleMap.moveCamera(
-                                CameraUpdateFactory.newLatLngZoom(
-                                    store,
-                                    15F
-                                )
-                            ) //zoom表示
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(store))
+                            pointLocation(LatLng(list[i].lat, list[i].lng), list[i].name)
+                            val mapFragment =
+                                childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+                            mapFragment?.getMapAsync(callback)
                         }
-
                     } else {
+                         pointLocation(LatLng(it!!.lat, it.lng), it.name)
+                        val mapFragment =
+                            childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+                        mapFragment?.getMapAsync(callback)
 
-                        viewModel.forMap.observe(viewLifecycleOwner) {
-                            val store = LatLng(it!!.lat, it.lng)
-
-                            googleMap.addMarker(
-                                MarkerOptions().position(store).title(it.name)
-                            )
-                            googleMap.moveCamera(
-                                CameraUpdateFactory.newLatLngZoom(
-                                    store,
-                                    15F
-                                )
-                            ) //zoom表示
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(store))
-                        }
                     }
                 }
-
-                googleMap.uiSettings.isZoomControlsEnabled = true //zoomボタン表示
             }
         }
+    }
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
+    private fun pointLocation(store: LatLng, name: String) {
+        callback = OnMapReadyCallback { googleMap ->
+            googleMap.addMarker(
+                MarkerOptions().position(store).title(name)
+            )
+            googleMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(store, 15F)
+            ) //zoom表示
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(store))
+            googleMap.uiSettings.isZoomControlsEnabled = true //zoomボタン表示
+        }
     }
 }
