@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentStoreDetailBinding
+import com.example.hotpepperapi.model.ForMap
 import com.example.hotpepperapi.viewModel.ViewModel
 
 class StoreDetailFragment : Fragment() {
@@ -47,9 +48,10 @@ class StoreDetailFragment : Fragment() {
                 binding.tvStoreAddress.text = list[position].address
                 binding.tvStoreAccess.text = list[position].access
 
-                viewModel.setStoreName(list[position].name)
                 viewModel.setUrl(list[position].urls.pc)
-                viewModel.setStoreLatLng(list[position].lat, list[position].lng)
+
+                val forMap = ForMap(list[position].name, list[position].lat, list[position].lng)
+                viewModel.setForMap(forMap)
             }
         }
 

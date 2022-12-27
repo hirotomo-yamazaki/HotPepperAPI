@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_topFragment_to_storeListFragment"
             app:destination="@id/storeListFragment" />
+        <action
+            android:id="@+id/action_topFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/storeListFragment"

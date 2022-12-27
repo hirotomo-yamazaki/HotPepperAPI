@@ -89,15 +89,11 @@ class TopFragment : Fragment() {
         binding.cbFreeFood.setOnClickListener { onCheckBoxClicked(it) }
 
         binding.btn300.setSafeClickListener {
-            if (viewModel.lat.value == null || viewModel.lng.value == null){
+            if (viewModel.lat.value == null || viewModel.lng.value == null) {
                 showLocationDialog()
-            }else{
+            } else {
                 checkLocation()
-                viewModel.apiFlag.observe(viewLifecycleOwner){
-                    if (it){
-                        findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
-                    }
-                }
+                select()
             }
         }
 
@@ -126,12 +122,12 @@ class TopFragment : Fragment() {
         if (!binding.etSearchKeyword.text.isNullOrEmpty()) {
 
             viewModel.getStoreList()
-            viewModel.apiFlag.observe(viewLifecycleOwner){
-                if (it){
+            viewModel.apiFlag.observe(viewLifecycleOwner) {
+                if (it) {
                     findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
                 }
             }
-        }else{
+        } else {
             showEditTextDialog()
         }
     }
@@ -148,7 +144,7 @@ class TopFragment : Fragment() {
         }
     }
 
-    private fun showLocationDialog(){
+    private fun showLocationDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("Caution")
             .setIcon(R.drawable.ic_baseline_warning_24)
@@ -159,13 +155,27 @@ class TopFragment : Fragment() {
             .show()
     }
 
-    private fun showEditTextDialog(){
+    private fun showEditTextDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("Caution")
             .setIcon(R.drawable.ic_baseline_warning_24)
             .setMessage(R.string.dialog)
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun select() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialogHowto)
+            .setMessage(R.string.selectHowto)
+            .setPositiveButton(R.string.showList) { _, _ ->
+                viewModel.setMultiple(false)
+                findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
+            }
+            .setNegativeButton(R.string.showMap) { _, _ ->
+                findNavController().navigate(R.id.action_topFragment_to_mapsFragment)
             }
             .show()
     }
