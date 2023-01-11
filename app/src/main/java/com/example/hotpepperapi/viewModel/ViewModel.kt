@@ -28,14 +28,6 @@ class ViewModel : ViewModel() {
     val multipleFlag: LiveData<Boolean>
         get() = _multipleFlag
 
-    private val _genreCode = MutableLiveData<String>()
-    val genreCode: LiveData<String>
-        get() = _genreCode
-
-    private val _etKeyword = MutableLiveData<String>()
-    val etKeyword: LiveData<String>
-        get() = _etKeyword
-
     private val _position = MutableLiveData<Int>()
     val position: LiveData<Int>
         get() = _position
@@ -47,18 +39,6 @@ class ViewModel : ViewModel() {
     private val _lng = MutableLiveData<Double?>()
     val lng: LiveData<Double?>
         get() = _lng
-
-    private val _coupon = MutableLiveData<String>()
-    val coupon: LiveData<String>
-        get() = _coupon
-
-    private val _freeDrink = MutableLiveData<String>()
-    val freeDrink: LiveData<String>
-        get() = _freeDrink
-
-    private val _freeFood = MutableLiveData<String>()
-    val freeFood: LiveData<String>
-        get() = _freeFood
 
     private val _list = MutableLiveData<MutableList<Shop>>()
     val list: LiveData<MutableList<Shop>>
@@ -76,25 +56,12 @@ class ViewModel : ViewModel() {
         _progressBarFlag.value = false
         _progressBarFlag.value = false
         _multipleFlag.value = false
-        _genreCode.value = ""
-        _etKeyword.value = ""
         _position.value = 0
         _lat.value = null
         _lng.value = null
-        _coupon.value = "0"
-        _freeDrink.value = "0"
-        _freeFood.value = "0"
         _list.value = mutableListOf()
         _url.value = ""
         _forMap.value = null
-    }
-
-    fun setKeyword(keyword: String) {
-        _etKeyword.value = keyword
-    }
-
-    fun setGenreCode(genreCode: String) {
-        _genreCode.value = genreCode
     }
 
     fun setPosition(position: Int) {
@@ -108,30 +75,6 @@ class ViewModel : ViewModel() {
 
     fun setUrl(url: String) {
         _url.value = url
-    }
-
-    fun couponCheck(isChecked: Boolean) {
-        if (isChecked) {
-            _coupon.value = "1"
-        } else {
-            _coupon.value = "0"
-        }
-    }
-
-    fun freeDrinkCheck(isChecked: Boolean) {
-        if (isChecked) {
-            _freeDrink.value = "1"
-        } else {
-            _freeDrink.value = "0"
-        }
-    }
-
-    fun freeFoodCheck(isChecked: Boolean) {
-        if (isChecked) {
-            _freeFood.value = "1"
-        } else {
-            _freeFood.value = "0"
-        }
     }
 
     fun setMultiple(flag: Boolean) {
@@ -191,14 +134,32 @@ class ViewModel : ViewModel() {
     }
 
     /** 駅名、ジャンルから飲食店を検索 */
-    fun getStoreList() {
+    fun getStoreList(
+        keyword: String,
+        genreCode: String,
+        coupon: String,
+        freeDrink: String,
+        freeFood: String
+    ) {
         viewModelScope.launch {
-            apiConnect()
+            apiConnect(
+                keyword,
+                genreCode,
+                coupon,
+                freeDrink,
+                freeFood
+            )
         }
         Log.i("ViewModel", "getStoreList")
     }
 
-    private suspend fun apiConnect() {
+    private suspend fun apiConnect(
+        keyword: String,
+        genreCode: String,
+        coupon: String,
+        freeDrink: String,
+        freeFood: String
+    ) {
         val service = Constants.retrofit()
 
         _progressBarFlag.value = true
@@ -209,11 +170,11 @@ class ViewModel : ViewModel() {
             val listCall =
                 service.getStoreList(
                     Constants.API_KEY,
-                    genreCode.value.toString(),
-                    etKeyword.value.toString(),
-                    coupon.value.toString(),
-                    freeDrink.value.toString(),
-                    freeFood.value.toString(),
+                    genreCode,
+                    keyword,
+                    coupon,
+                    freeDrink,
+                    freeFood,
                     Constants.FORMAT
                 )
 

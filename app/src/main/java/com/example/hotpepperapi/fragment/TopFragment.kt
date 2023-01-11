@@ -13,15 +13,18 @@ import android.widget.CheckBox
 import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.hotpepperapi.R
 import com.example.hotpepperapi.databinding.FragmentTopBinding
 import com.example.hotpepperapi.setSafeClickListener
+import com.example.hotpepperapi.viewModel.TopViewModel
 import com.example.hotpepperapi.viewModel.ViewModel
 
 class TopFragment : Fragment() {
 
     private val viewModel: ViewModel by activityViewModels()
+    private val topViewModel: TopViewModel by viewModels()
     private lateinit var binding: FragmentTopBinding
 
     override fun onCreateView(
@@ -74,13 +77,12 @@ class TopFragment : Fragment() {
                     else -> "G001"
                 }
 
-                viewModel.setGenreCode(genreCode)
-                Log.i("genreCode", viewModel.genreCode.value.toString())
+                topViewModel.setGenreCode(genreCode)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 val genreCode = "G001"
-                viewModel.setGenreCode(genreCode)
+                topViewModel.setGenreCode(genreCode)
             }
         }
 
@@ -116,12 +118,19 @@ class TopFragment : Fragment() {
         val keyword = binding.etSearchKeyword.text.toString()
 
         //入力された店名と駅名をviewModelに保存
-        viewModel.setKeyword(keyword)
+        topViewModel.setKeyword(keyword)
 
         //viewModelに店名と駅名が保存されていたら画面遷移
         if (!binding.etSearchKeyword.text.isNullOrEmpty()) {
 
-            viewModel.getStoreList()
+            viewModel.getStoreList(
+                topViewModel.keyword.value.toString(),
+                topViewModel.genreCode.value.toString(),
+                topViewModel.coupon.value.toString(),
+                topViewModel.freeDrink.value.toString(),
+                topViewModel.freeFood.value.toString()
+            )
+
             viewModel.apiFlag.observe(viewLifecycleOwner) {
                 if (it) {
                     findNavController().navigate(R.id.action_topFragment_to_storeListFragment)
@@ -137,9 +146,9 @@ class TopFragment : Fragment() {
             val checked: Boolean = view.isChecked
 
             when (view.id) {
-                R.id.cb_coupon -> viewModel.couponCheck(checked)
-                R.id.cb_free_drink -> viewModel.freeDrinkCheck(checked)
-                R.id.cb_free_food -> viewModel.freeFoodCheck(checked)
+                R.id.cb_coupon -> topViewModel.couponCheck(checked)
+                R.id.cb_free_drink -> topViewModel.freeDrinkCheck(checked)
+                R.id.cb_free_food -> topViewModel.freeFoodCheck(checked)
             }
         }
     }
